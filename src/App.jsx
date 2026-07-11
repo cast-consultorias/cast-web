@@ -5,6 +5,7 @@ import Stats from './components/Stats'
 import ValueProps from './components/ValueProps'
 import Methodology from './components/Methodology'
 import Services from './components/Services'
+import Resultados from './components/Resultados'
 import ESG from './components/ESG'
 import Founder from './components/Founder'
 import CTA from './components/CTA'
@@ -20,6 +21,7 @@ function HomePage() {
       <ValueProps />
       <Methodology />
       <Services />
+      <Resultados />
       <ESG />
       <Founder />
       <CTA />

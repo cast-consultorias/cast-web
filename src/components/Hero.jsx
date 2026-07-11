@@ -100,7 +100,7 @@ export default function Hero() {
           >
             Estructuramos tu visión con estándares internacionales para que sea
             financiable, escalable y listo para el capital global. 25+ años,
-            15 países, resultados medibles.
+            25+ países, resultados medibles.
           </p>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4">

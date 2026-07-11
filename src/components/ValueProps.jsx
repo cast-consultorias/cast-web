@@ -8,8 +8,8 @@ gsap.registerPlugin(ScrollTrigger)
 const props = [
   {
     Icon: TrendingUp,
-    title: 'Escala sin invertir en ads',
-    desc: 'Estructuramos tu modelo para que el crecimiento sea orgánico, financiado por capital inteligente y no por publicidad pagada.',
+    title: 'Crece con estructura, no solo con pauta',
+    desc: 'Estructuramos tu modelo para que el crecimiento sea sostenible, financiado por capital inteligente y no solo por publicidad pagada.',
     color: 'from-amber-500/10 to-yellow-600/5',
     border: 'hover:border-amber-500/30',
     glow: 'hover:shadow-amber-500/10',

@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const stats = [
   { value: 25, suffix: '+', label: 'Años de experiencia', desc: 'Liderazgo ejecutivo internacional' },
-  { value: 15, suffix: '+', label: 'Países alcanzados', desc: 'Red de capital global activa' },
+  { value: 25, suffix: '+', label: 'Países alcanzados', desc: 'Red de capital global activa' },
   { value: 8.5, suffix: 'x', label: 'ROI promedio', desc: 'En proyectos estructurados' },
   { value: 6, suffix: '', label: 'Sectores de impacto', desc: 'Minería, salud, agro, tech y más' },
 ]

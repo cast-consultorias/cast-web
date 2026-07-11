@@ -1,59 +1,169 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Star, Building2, BarChart3, BrainCircuit, Handshake, ArrowUpRight, X, CheckCircle2, CalendarCheck } from 'lucide-react'
+import {
+  HeartPulse, Landmark, BrainCircuit, Star, Building2,
+  Coins, Globe, Handshake, ArrowUpRight, X, CheckCircle2, CalendarCheck, MessageCircle,
+} from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const WA_RWA = 'https://wa.me/573042113374?text=' + encodeURIComponent(
+  'Hola Carlos, tengo un proyecto con activo real y quiero explorar la ruta de tokenización RWA. ¿Podemos hablar?'
+)
+
 const services = [
   {
-    Icon: Star,
-    badge: 'Más popular',
-    title: 'De la Idea al Impacto Real',
-    target: 'Emprendedor con visión clara',
-    desc: 'Tomamos tu concepto y lo convertimos en un proyecto estructurado, financiable y presentable ante capital internacional.',
+    Icon: HeartPulse,
+    badge: 'ESPECIALIDAD CAST',
     featured: true,
+    target: 'MÉDICO, ODONTÓLOGO O PROFESIONAL DE LA SALUD',
+    title: 'Estructura tu Consultorio, Telemedicina o IPS',
+    desc: 'Ruta completa de habilitación (Res. 3100 y Res. 1888/2025), estructura financiera y tecnología de gestión clínica con PULSO — nuestro software propio. Abre y escala tu proyecto de salud sin riesgo de sanción.',
+    ctaHref: '/blueprint',
+    ctaLabel: 'Agenda tu Blueprint Session™',
+    ctaExternal: false,
     detail: {
-      heading: 'Convierte tu idea en un proyecto bancable',
-      body: 'Acompañamos al emprendedor desde la concepción de su idea hasta tener un proyecto listo para presentar ante inversores, fondos o instituciones financieras internacionales. Estructuramos tu modelo de negocio, plan financiero y narrativa de impacto con estándares PMBOK y metodologías ágiles.',
+      heading: 'El único servicio integral de salud en el Caribe',
+      body: 'Combinamos la ruta regulatoria completa (Res. 3100 y Res. 1888/2025) con estructura financiera sólida y tecnología propia (PULSO) para que abras o escales tu proyecto de salud con cero riesgo de sanción. Somos el único aliado en Barranquilla que integra lo legal, lo financiero y lo tecnológico en una sola ruta.',
       includes: [
-        'Diagnóstico estratégico de tu idea o negocio',
-        'Business plan con proyecciones financieras a 5 años',
-        'Modelo de negocio canvas + lean canvas',
-        'Pitch deck para inversores internacionales',
-        'Estructura ESG básica integrada',
-        'Acompañamiento en primeras rondas de capital',
+        'Ruta de habilitación Res. 3100 y Res. 1888/2025',
+        'Estructura financiera del proyecto clínico',
+        'Implementación de PULSO — software de gestión CAST',
+        'Registro ante SDS y SISPRO',
+        'Modelo de telemedicina estructurado y habilitado',
+        'Acompañamiento hasta apertura y primera auditoría',
+      ],
+    },
+  },
+  {
+    Icon: Landmark,
+    badge: null,
+    featured: false,
+    target: 'EMPRESA QUE BUSCA FINANCIACIÓN',
+    title: 'Estudios de Viabilidad y Carpeta de Crédito',
+    desc: 'El banco no rechaza negocios: rechaza carpetas. Construimos el estudio de viabilidad financiera y la documentación técnica que bancos, Bancóldex y FNG exigen — para que tu próxima solicitud llegue como los bancos quieren verla.',
+    ctaHref: '/blueprint',
+    ctaLabel: 'Agenda tu Blueprint Session™',
+    ctaExternal: false,
+    detail: {
+      heading: 'La carpeta que los bancos no pueden rechazar',
+      body: 'Construimos el estudio de viabilidad financiera completo con las proyecciones y documentación técnica que exigen Bancóldex, FNG y la banca comercial. No es un trámite: es tu argumento técnico para acceder al capital que tu negocio necesita.',
+      includes: [
+        'Estudio de viabilidad financiera certificado',
+        'Proyecciones financieras a 5 años bajo estándares bancarios',
+        'Carpeta de crédito Bancóldex / FNG completa',
+        'Flujo de caja y análisis de riesgo crediticio',
+        'Presentación ejecutiva ante comité de crédito',
+        'Acompañamiento hasta desembolso',
+      ],
+    },
+  },
+  {
+    Icon: BrainCircuit,
+    badge: null,
+    featured: false,
+    target: 'NEGOCIO QUE VENDE PERO OPERA ARTESANALMENTE',
+    title: 'CAST GRAVEDAD™ — IA y Sistema Comercial',
+    desc: '¿WhatsApp como CRM y Excel como control? Diseñamos tu sistema comercial completo: CRM, embudos, automatización e IA aplicada — para que dejes de perder clientes por falta de seguimiento. No vendemos "IA": construimos el sistema que la usa.',
+    ctaHref: '/blueprint',
+    ctaLabel: 'Agenda tu Blueprint Session™',
+    ctaExternal: false,
+    detail: {
+      heading: 'El sistema comercial que escala tu negocio',
+      body: 'CAST GRAVEDAD™ es nuestro sistema comercial propietario: CRM, embudos de venta automatizados y agentes de IA construidos para tu operación específica. Ningún cliente se pierde más por falta de seguimiento.',
+      includes: [
+        'Diagnóstico de procesos comerciales actuales',
+        'Diseño e implementación de CRM personalizado',
+        'Embudos de venta y seguimiento automatizados',
+        'Agentes de IA para atención y calificación de leads',
+        'Integración con WhatsApp Business y correo',
+        'Capacitación del equipo y manual de operación',
+      ],
+    },
+  },
+  {
+    Icon: Star,
+    badge: null,
+    featured: false,
+    target: 'EMPRENDEDOR CON IDEA Y AHORROS LISTOS',
+    title: 'De la Idea al Impacto Real',
+    desc: 'Antes de invertir tus ahorros, valida. Estructuramos tu idea de punta a punta — modelo, finanzas, marca, legal y lanzamiento (Perfil Origen: 12 entregables) — para que emprendas con estructura, no a ciegas.',
+    ctaHref: '/blueprint',
+    ctaLabel: 'Agenda tu Blueprint Session™',
+    ctaExternal: false,
+    detail: {
+      heading: 'Emprende con estructura, no con miedo',
+      body: 'El Perfil Origen CAST incluye 12 entregables que cubren modelo de negocio, proyecciones financieras, estructura legal, marca y plan de lanzamiento — todo antes de invertir un peso. Emprende sabiendo que está bien hecho.',
+      includes: [
+        'Validación de idea y estudio de mercado',
+        'Business model canvas + propuesta de valor',
+        'Proyecciones financieras y punto de equilibrio',
+        'Estructura legal y registro de marca',
+        'Identidad visual y narrativa de marca',
+        'Plan de lanzamiento con primeras ventas',
       ],
     },
   },
   {
     Icon: Building2,
-    title: 'Estructura tu Empresa',
-    target: 'Empresa sin arquitectura sólida',
-    desc: 'Rediseñamos tu modelo operativo, financiero y de gobierno para que sea robusto, escalable y atractivo para socios estratégicos.',
+    badge: null,
     featured: false,
+    target: 'NEGOCIO QUE YA FACTURA PERO SIN ESTRUCTURA',
+    title: 'Formaliza y Estructura tu Negocio',
+    desc: 'Tu negocio vende, pero sin registro ni estructura hay techo: cero crédito, cero contratos con empresas grandes, cero Bancóldex. Convertimos tu operación real en una empresa formal, robusta y lista para crecer.',
+    ctaHref: '/blueprint',
+    ctaLabel: 'Agenda tu Blueprint Session™',
+    ctaExternal: false,
     detail: {
-      heading: 'Arquitectura empresarial de clase mundial',
-      body: 'Muchas empresas crecen sin estructura y llegan a un techo invisible. Rediseñamos tu arquitectura organizacional, financiera y de gobierno corporativo para que tu empresa pueda escalar sin depender de una sola persona y sea atractiva para capital institucional.',
+      heading: 'Del negocio informal al actor empresarial',
+      body: 'Sin registro mercantil ni estructura hay un techo invisible: sin crédito, sin contratos corporativos, sin Bancóldex. Convertimos tu operación real en una empresa formal con gobierno, estructura tributaria y capacidad de crecimiento.',
       includes: [
-        'Auditoría de estructura organizacional',
-        'Diseño de gobierno corporativo',
-        'Reestructuración financiera y contable',
-        'Manual de procesos y procedimientos',
-        'KPIs y tablero de control ejecutivo',
-        'Preparación para due diligence externo',
+        'Formalización mercantil y societaria',
+        'Estructura tributaria optimizada',
+        'Gobierno corporativo básico',
+        'Preparación para crédito bancario y Bancóldex',
+        'Contratos y documentación legal estándar',
+        'KPIs y tablero de control operativo',
       ],
     },
   },
   {
-    Icon: BarChart3,
-    title: 'Escala a Mercados Globales',
-    target: 'Empresa o profesional que quiere escalar',
-    desc: 'Estrategia de expansión internacional con análisis de mercado, plan financiero y acceso a nuestra red de capital en 15+ países.',
+    Icon: Coins,
+    badge: null,
     featured: false,
+    target: 'PROYECTO CON ACTIVO REAL — MINERÍA, AGRO, ENERGÍA, INMOBILIARIO',
+    title: 'Tokenización de Activos Reales (RWA)',
+    desc: '¿Tu activo vale más que el capital que necesitas y aun así la banca dice no? Estructuramos financiación alternativa sobre tu colateral real: valoración, arquitectura legal internacional, diseño del token y conexión con capital global. Metodología probada en un proyecto minero de nueve cifras.',
+    ctaHref: WA_RWA,
+    ctaLabel: 'Iniciar conversación',
+    ctaExternal: true,
+    detail: {
+      heading: 'Financiación global para activos que la banca no alcanza',
+      body: 'Cuando tu activo vale más que lo que la banca puede financiar, la tokenización es la ruta. Metodología probada end-to-end en un proyecto minero de nueve cifras con inversionistas en Europa y América. El mercado RWA en LATAM creció +245% en el último año.',
+      includes: [
+        'Valoración de reservas y activos como colateral',
+        'Arquitectura legal en múltiples jurisdicciones',
+        'Diseño del token y estructura de emisión',
+        'Due diligence ESG para capital internacional',
+        'Presentación ante inversionistas en Europa y América',
+        'Gestión del proceso hasta cierre de ronda',
+      ],
+    },
+  },
+  {
+    Icon: Globe,
+    badge: null,
+    featured: false,
+    target: 'EMPRESA O PROFESIONAL QUE QUIERE ESCALAR',
+    title: 'Escala a Mercados Globales',
+    desc: 'Estrategia de expansión internacional con análisis de mercado, plan financiero y acceso a nuestra red activa de capital y aliados en 25+ países de Europa, América y Asia.',
+    ctaHref: '/blueprint',
+    ctaLabel: 'Agenda tu Blueprint Session™',
+    ctaExternal: false,
     detail: {
       heading: 'Expansión internacional con capital inteligente',
-      body: 'Nuestra red activa en 15+ países nos permite conectar tu empresa con los mercados correctos, los socios adecuados y el capital que acelera la expansión. No es una estrategia genérica: es un plan a medida basado en inteligencia de mercado real.',
+      body: 'Nuestra red activa en 25+ países nos permite conectar tu empresa con los mercados correctos, los socios adecuados y el capital que acelera la expansión. No es una estrategia genérica: es un plan a medida basado en inteligencia de mercado real.',
       includes: [
         'Análisis de mercados objetivo con datos actualizados',
         'Estrategia de entrada por país',
@@ -65,33 +175,18 @@ const services = [
     },
   },
   {
-    Icon: BrainCircuit,
-    title: 'IA & Automatización',
-    target: 'Negocio que quiere eficiencia operativa',
-    desc: 'Agentes de IA, workflows automatizados y apps personalizadas que reducen costos operativos hasta un 40% en 90 días.',
-    featured: false,
-    detail: {
-      heading: 'Transformación operativa con Inteligencia Artificial',
-      body: 'Implementamos soluciones de IA y automatización adaptadas a tu operación real: no plantillas genéricas, sino sistemas diseñados para tu flujo de trabajo, tu equipo y tus objetivos. El resultado es una operación más eficiente, escalable y preparada para el futuro.',
-      includes: [
-        'Diagnóstico de procesos automatizables',
-        'Diseño e implementación de agentes de IA',
-        'Workflows automatizados con n8n / Make / Zapier',
-        'Apps personalizadas con IA integrada',
-        'Integración con CRM, ERP y herramientas existentes',
-        'Capacitación del equipo en herramientas IA',
-      ],
-    },
-  },
-  {
     Icon: Handshake,
-    title: 'Inversionista Estratégico',
-    target: 'Inversor o socio buscando proyectos',
-    desc: 'Accede a nuestro pipeline de proyectos curados con estándares ESG, due diligence completo y proyecciones validadas.',
+    badge: null,
     featured: false,
+    target: 'INVERSIONISTA O SOCIO ESTRATÉGICO',
+    title: 'Acceso a Proyectos Estructurados',
+    desc: 'Pipeline de proyectos con due diligence completo, marcos ESG y proyecciones validadas bajo metodología CAST. Conversación directa y confidencial.',
+    ctaHref: '#contacto',
+    ctaLabel: 'Iniciar conversación confidencial',
+    ctaExternal: false,
     detail: {
       heading: 'Pipeline de proyectos curados y validados',
-      body: 'Para inversores y socios estratégicos que buscan proyectos con potencial real. Cada proyecto en nuestro pipeline pasa por un proceso de due diligence riguroso, validación financiera y certificación ESG. Accedes a oportunidades que ya están listas para recibir capital.',
+      body: 'Para inversores y socios estratégicos que buscan proyectos con potencial real. Cada proyecto pasa por due diligence riguroso, validación financiera y certificación ESG. Accedes a oportunidades ya listas para recibir capital.',
       includes: [
         'Acceso a pipeline de proyectos curados',
         'Due diligence financiero y legal completo',
@@ -132,6 +227,8 @@ function ServiceModal({ service, onClose }) {
     })
   }
 
+  const CtaIcon = service.ctaExternal ? MessageCircle : CalendarCheck
+
   return (
     <div
       ref={overlayRef}
@@ -142,7 +239,6 @@ function ServiceModal({ service, onClose }) {
         ref={panelRef}
         className="relative w-full max-w-lg glass-dark rounded-3xl border border-cast-gold/20 p-8 shadow-2xl shadow-black/50 max-h-[90vh] overflow-y-auto"
       >
-        {/* Close */}
         <button
           onClick={handleClose}
           className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:border-cast-gold/30 hover:text-cast-gold transition-all"
@@ -150,7 +246,6 @@ function ServiceModal({ service, onClose }) {
           <X size={14} />
         </button>
 
-        {/* Icon + badge */}
         <div className="flex items-center gap-3 mb-5">
           <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
             service.featured ? 'bg-cast-gold/20 border border-cast-gold/30' : 'bg-white/5 border border-white/10'
@@ -163,13 +258,9 @@ function ServiceModal({ service, onClose }) {
           </div>
         </div>
 
-        {/* Heading */}
         <p className="text-cast-gold font-semibold text-base mb-3">{service.detail.heading}</p>
-
-        {/* Body */}
         <p className="text-white/55 text-sm leading-relaxed mb-6">{service.detail.body}</p>
 
-        {/* Includes */}
         <div className="mb-7">
           <p className="text-white/40 text-xs font-semibold tracking-widest uppercase mb-3">Incluye</p>
           <ul className="flex flex-col gap-2.5">
@@ -182,14 +273,14 @@ function ServiceModal({ service, onClose }) {
           </ul>
         </div>
 
-        {/* CTA */}
         <a
-          href="#contacto"
+          href={service.ctaHref}
           onClick={handleClose}
+          {...(service.ctaExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           className="flex items-center justify-center gap-2 w-full px-6 py-3.5 rounded-full bg-cast-gold text-cast-dark font-semibold text-sm hover:bg-cast-gold-light transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cast-gold/25"
         >
-          <CalendarCheck size={15} />
-          Quiero este servicio
+          <CtaIcon size={15} />
+          {service.ctaLabel}
         </a>
       </div>
     </div>
@@ -210,7 +301,7 @@ export default function Services() {
         gsap.fromTo(
           cardRefs.current.filter(Boolean),
           { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, stagger: 0.1, duration: 0.75, ease: 'power3.out' }
+          { opacity: 1, y: 0, stagger: 0.08, duration: 0.75, ease: 'power3.out' }
         )
       },
     })
@@ -232,7 +323,7 @@ export default function Services() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {services.map((s, i) => (
               <div
                 key={s.title}
@@ -242,7 +333,7 @@ export default function Services() {
                   s.featured
                     ? 'bg-gradient-to-br from-cast-gold/15 to-cast-gold-dark/5 border-cast-gold/40 glow-gold'
                     : 'glass border-white/5 hover:border-cast-gold/20'
-                } ${i === 4 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+                }`}
               >
                 {s.badge && (
                   <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-cast-gold text-cast-dark text-[10px] font-bold tracking-wider uppercase">

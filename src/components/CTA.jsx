@@ -247,7 +247,7 @@ export default function CTA() {
             <span className="text-gradient-gold">que el mundo puede financiar</span>
           </h2>
           <p className="text-white/40 max-w-xl mx-auto text-base">
-            Sesión gratuita de pre-diagnóstico. Sin compromiso. Sin spam.
+            Blueprint Session™ gratuita. Sin compromiso. Sin spam.
           </p>
         </div>
 
@@ -363,7 +363,7 @@ export default function CTA() {
                   ) : (
                     <>
                       <Send size={15} />
-                      Solicitar Pre-Diagnóstico Gratuito
+                      Solicitar Blueprint Session™
                     </>
                   )}
                 </button>
@@ -379,7 +379,7 @@ export default function CTA() {
           <div className="mt-6 text-center">
             <p className="text-white/30 text-xs mb-4">¿Prefieres hablar directamente?</p>
             <a
-              href="https://wa.me/573042113374?text=Hola+Carlos%2C+quiero+agendar+mi+Pre-Diagn%C3%B3stico+Gratuito"
+              href="https://wa.me/573042113374?text=Hola+Carlos%2C+quiero+agendar+mi+Blueprint+Session%E2%84%A2"
               target="_blank"
               rel="noopener noreferrer"
               className="relative inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-emerald-500 text-white font-semibold text-sm hover:bg-emerald-400 transition-all duration-300 hover:scale-105"
