@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Check, ChevronDown, ChevronUp, MessageCircle, ExternalLink } from 'lucide-react'
+import RadiografiaCast from '../components/RadiografiaCast'
 
 // ─── FLAGS DE AUTORIZACIÓN DE TESTIMONIOS ─────────────────────────────────────
 // Cambiar a true SOLO cuando llegue autorización escrita del cliente.
@@ -642,79 +643,37 @@ function FAQSection() {
   )
 }
 
-// ─── SECCIÓN 11 — RADIOGRAFÍA + CALENDARIO ───────────────────────────────────
+// ─── SECCIÓN 11 — RADIOGRAFÍA CAST™ ─────────────────────────────────────────
 function ConversionSection() {
   const whatsappMsg = encodeURIComponent('Hola Carlos, hice mi Radiografía CAST y quiero mi Blueprint Session')
 
   return (
     <section id="radiografia" className="bg-bp-navy py-16 px-6">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl">
-          <h2 className="font-montserrat font-extrabold text-bp-navy text-2xl md:text-3xl text-center mb-2">
+      <div className="max-w-3xl mx-auto flex flex-col gap-8">
+        <div className="text-center">
+          <h2 className="font-montserrat font-extrabold text-white text-2xl md:text-3xl mb-2">
             Empieza aquí.
           </h2>
-          <p className="font-opensans text-bp-navy/60 text-center text-base mb-10">
+          <p className="font-opensans text-white/55 text-base">
             5 minutos que pueden ahorrarte 5 años de errores.
           </p>
+        </div>
 
-          {/* PASO 1 — Formulario */}
-          <div className="mb-10">
-            <p className="font-montserrat font-bold text-bp-navy text-lg mb-1">
-              PASO 1: Completa tu Radiografía CAST™
-            </p>
-            <p className="font-opensans text-bp-navy/55 text-sm mb-4">
-              17 preguntas sobre tu negocio, tus números y tu momento. 100% confidencial.
-            </p>
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLSfEtWKn9413pbT-gsUods74VeF9FgHkVpG6f6FGCPsaO7t4VA/viewform?embedded=true"
-              width="100%"
-              height="620"
-              frameBorder="0"
-              marginHeight="0"
-              marginWidth="0"
-              className="rounded-xl border border-bp-navy/8 w-full"
-              title="Radiografía CAST™"
-              loading="lazy"
-            >
-              Cargando formulario…
-            </iframe>
-          </div>
+        <RadiografiaCast />
 
-          {/* PASO 2 — Calendario */}
-          <div className="mb-8">
-            <p className="font-montserrat font-bold text-bp-navy text-lg mb-1">
-              PASO 2: Elige el día y la hora de tu Blueprint Session™
-            </p>
-            <p className="font-opensans text-bp-navy/55 text-sm mb-4">
-              Al confirmar recibirás tu Guía CAST de Financiamiento Estratégico de regalo,
-              junto con la confirmación de tu sesión.
-            </p>
-            <iframe
-              src="https://cal.com/carlos-alberto-suarez-tous-3hbcmp/blueprint-session-cast?embed=true&layout=month_view&theme=light"
-              width="100%"
-              height="600"
-              frameBorder="0"
-              className="rounded-xl border border-bp-navy/8 w-full"
-              title="Agenda tu Blueprint Session™ — CAST"
-              loading="lazy"
-            />
-          </div>
-
-          {/* WhatsApp */}
-          <div className="text-center pt-2">
-            <p className="font-opensans text-bp-navy/50 text-sm mb-3">
-              ¿Prefieres hablar directamente?
-            </p>
-            <a
-              href={`https://wa.me/573042113374?text=${whatsappMsg}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-montserrat font-bold uppercase px-6 py-3 rounded-xl text-sm hover:bg-[#1dba5a] transition-colors duration-200 shadow-md"
-            >
-              <MessageCircle size={17} />
-              ESCRÍBEME POR WHATSAPP
-            </a>
-          </div>
+        <div className="text-center pt-2">
+          <p className="font-opensans text-white/50 text-sm mb-3">
+            ¿Prefieres hablar directamente?
+          </p>
+          <a
+            href={`https://wa.me/573042113374?text=${whatsappMsg}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-montserrat font-bold uppercase px-6 py-3 rounded-xl text-sm hover:bg-[#1dba5a] transition-colors duration-200 shadow-md"
+          >
+            <MessageCircle size={17} />
+            ESCRÍBEME POR WHATSAPP
+          </a>
         </div>
       </div>
     </section>
