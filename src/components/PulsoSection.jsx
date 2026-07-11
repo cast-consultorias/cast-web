@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CheckCircle, Play } from 'lucide-react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const BULLETS = [
   'IA predictiva: hasta 70% de glosas evitables detectadas antes de la radicación*',
@@ -16,31 +20,60 @@ export default function PulsoSection() {
   const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const videoObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVideoMounted(true)
-          observer.disconnect()
+          videoObserver.disconnect()
         }
       },
       { rootMargin: '200px' }
     )
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
+    if (sectionRef.current) videoObserver.observe(sectionRef.current)
+
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top 75%',
+      once: true,
+      onEnter: () => {
+        gsap.fromTo(
+          sectionRef.current.querySelectorAll('.pulso-animate'),
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, stagger: 0.12, duration: 0.75, ease: 'power3.out' }
+        )
+      },
+    })
+
+    return () => videoObserver.disconnect()
   }, [])
 
   return (
-    <section ref={sectionRef} id="pulso" className="bg-bp-cream py-20 md:py-24">
+    <section ref={sectionRef} id="pulso" className="py-24 bg-cast-dark">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
+
+        {/* Header */}
+        <div className="pulso-animate opacity-0 text-center mb-14">
+          <span className="inline-flex items-center gap-2 text-cast-gold text-xs font-semibold tracking-[0.25em] uppercase mb-4">
+            <span className="w-6 h-px bg-cast-gold" />
+            Producto Propio CAST
+            <span className="w-6 h-px bg-cast-gold" />
+          </span>
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-white">
+            Tecnología CAST.<br />
+            <span className="text-gradient-gold">Para el sector salud.</span>
+          </h2>
+        </div>
+
+        {/* Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* Video — arriba en mobile, izquierda en desktop */}
-          <div className="relative rounded-2xl overflow-hidden border border-bp-gold/40 shadow-2xl shadow-bp-navy/10">
+          <div className="pulso-animate opacity-0 relative glass rounded-3xl overflow-hidden border border-cast-gold/20">
             {videoMounted ? (
-              <div className="relative aspect-video bg-bp-navy/5">
+              <div className="relative aspect-video">
                 <video
                   ref={videoRef}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover rounded-3xl"
                   controls
                   preload="metadata"
                   playsInline
@@ -55,52 +88,52 @@ export default function PulsoSection() {
                   <button
                     onClick={() => videoRef.current?.play()}
                     aria-label="Reproducir video de PULSO"
-                    className="absolute inset-0 flex items-center justify-center bg-bp-navy/15 hover:bg-bp-navy/25 transition-colors group"
+                    className="absolute inset-0 flex items-center justify-center bg-cast-dark/40 hover:bg-cast-dark/50 transition-colors group"
                   >
-                    <span className="w-16 h-16 rounded-full bg-bp-gold shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                      <Play size={22} className="text-bp-navy ml-1" fill="currentColor" />
+                    <span className="w-16 h-16 rounded-full bg-cast-gold shadow-lg shadow-cast-gold/25 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                      <Play size={22} className="text-cast-dark ml-1" fill="currentColor" />
                     </span>
                   </button>
                 )}
               </div>
             ) : (
-              <div className="aspect-video bg-bp-navy/5 flex items-center justify-center">
-                <span className="w-16 h-16 rounded-full bg-bp-gold flex items-center justify-center">
-                  <Play size={22} className="text-bp-navy ml-1" fill="currentColor" />
+              <div className="aspect-video flex items-center justify-center bg-cast-dark-3">
+                <span className="w-16 h-16 rounded-full bg-cast-gold flex items-center justify-center">
+                  <Play size={22} className="text-cast-dark ml-1" fill="currentColor" />
                 </span>
               </div>
             )}
           </div>
 
           {/* Texto — abajo en mobile, derecha en desktop */}
-          <div className="flex flex-col gap-6">
-            <span className="text-bp-navy/40 text-[11px] font-montserrat font-bold tracking-[0.3em] uppercase">
-              PRODUCTO PROPIO CAST · REGISTRADO ANTE LA DNDA COLOMBIA
+          <div className="pulso-animate opacity-0 flex flex-col gap-6">
+            <span className="text-white/35 text-[11px] font-semibold tracking-[0.3em] uppercase">
+              REGISTRADO ANTE LA DNDA COLOMBIA
             </span>
 
             <div>
-              <h2 className="font-montserrat font-extrabold text-3xl md:text-4xl text-bp-navy leading-tight">
-                PULSO
-              </h2>
-              <p className="font-opensans text-bp-navy/55 text-sm mt-1 leading-snug">
+              <h3 className="font-display font-bold text-3xl md:text-4xl text-white leading-tight">
+                PULSO<sup className="text-cast-gold text-sm align-super ml-0.5">®</sup>
+              </h3>
+              <p className="text-white/45 text-sm mt-1 leading-snug">
                 Plataforma Unificada de Liquidación, Seguimiento y Operaciones en Salud
               </p>
             </div>
 
-            <p className="font-opensans text-bp-navy/75 text-base leading-relaxed">
+            <p className="text-white/65 text-base leading-relaxed">
               Las glosas y la cartera vencida están asfixiando a las IPS de Colombia.
               PULSO centraliza y automatiza el ciclo completo de cuentas médicas — de la
               autorización a la liquidación — con inteligencia artificial que detecta la
               glosa{' '}
-              <strong className="text-bp-navy font-semibold">ANTES de radicar</strong>{' '}
+              <strong className="text-white font-semibold">ANTES de radicar</strong>{' '}
               y trazabilidad blockchain en cada transacción.
             </p>
 
             <ul className="flex flex-col gap-3">
               {BULLETS.map((b) => (
                 <li key={b} className="flex items-start gap-3">
-                  <CheckCircle size={16} className="text-bp-gold mt-0.5 shrink-0" />
-                  <span className="font-opensans text-bp-navy/70 text-sm leading-snug">{b}</span>
+                  <CheckCircle size={16} className="text-cast-gold mt-0.5 shrink-0" />
+                  <span className="text-white/60 text-sm leading-snug">{b}</span>
                 </li>
               ))}
             </ul>
@@ -108,13 +141,13 @@ export default function PulsoSection() {
             <div className="pt-2">
               <Link
                 to="/pulso"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-bp-gold text-bp-navy font-montserrat font-bold text-sm uppercase tracking-wide hover:bg-bp-navy hover:text-bp-gold border-2 border-transparent hover:border-bp-gold transition-all duration-300"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-cast-gold text-cast-dark font-semibold text-sm hover:bg-cast-gold-light transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cast-gold/25"
               >
                 CONOCE PULSO →
               </Link>
             </div>
 
-            <p className="text-bp-navy/35 text-[11px] font-opensans leading-relaxed">
+            <p className="text-white/30 text-[11px] leading-relaxed">
               *Indicadores proyectados del modelo PULSO.
             </p>
           </div>
