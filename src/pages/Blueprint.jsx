@@ -690,7 +690,7 @@ function ConversionSection() {
               junto con la confirmación de tu sesión.
             </p>
             <iframe
-              src="https://cal.com/carlos-alberto-suarez-tous-3hbcmp/sesion-blueprints-cast?embed=true&layout=month_view&theme=light"
+              src="https://cal.com/carlos-alberto-suarez-tous-3hbcmp/blueprint-session-cast?embed=true&layout=month_view&theme=light"
               width="100%"
               height="600"
               frameBorder="0"
