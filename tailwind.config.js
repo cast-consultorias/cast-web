@@ -26,11 +26,19 @@ export default {
           cream: '#F5F0E8',
           'navy-deep': '#060e17',
         },
+        pulso: {
+          navy: '#0A1628',
+          'navy-light': '#0D2035',
+          'navy-deep': '#06101C',
+        },
       },
       animation: {
         'spin-slow': 'spin 12s linear infinite',
         'pulse-ring': 'pulse-ring 2s ease-out infinite',
         'float': 'float 6s ease-in-out infinite',
+        'wave-drift-r': 'wave-drift-r 14s linear infinite',
+        'wave-drift-l': 'wave-drift-l 9s linear infinite',
+        'wave-drift-r2': 'wave-drift-r2 20s linear infinite',
       },
       keyframes: {
         'pulse-ring': {
@@ -40,6 +48,18 @@ export default {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-12px)' },
+        },
+        'wave-drift-r': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'wave-drift-l': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'wave-drift-r2': {
+          '0%': { transform: 'translateX(-20%)' },
+          '100%': { transform: 'translateX(-70%)' },
         },
       },
     },

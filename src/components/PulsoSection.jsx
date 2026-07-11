@@ -13,6 +13,50 @@ const BULLETS = [
   'Diseñado para IPS, redes prestadoras, EPS y consultorios privados',
 ]
 
+// ─── ONDAS METALIZADAS ────────────────────────────────────────────────────────
+function PulsoWaves() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
+      {/* Reflejo metálico diagonal */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.025] to-transparent" />
+
+      {/* Onda 1 — lenta, profunda */}
+      <div className="absolute bottom-0 left-0 w-[200%] animate-wave-drift-r">
+        <svg viewBox="0 0 2880 130" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path
+            d="M0,85 C480,20 960,150 1440,85 C1920,20 2400,150 2880,85 L2880,130 L0,130 Z"
+            fill="#1E4A7A"
+            fillOpacity="0.18"
+          />
+        </svg>
+      </div>
+
+      {/* Onda 2 — velocidad media, sentido contrario */}
+      <div className="absolute bottom-0 left-0 w-[200%] animate-wave-drift-l">
+        <svg viewBox="0 0 2880 90" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path
+            d="M0,55 C360,10 720,90 1080,55 C1440,10 1800,90 2160,55 C2520,10 2760,75 2880,55 L2880,90 L0,90 Z"
+            fill="#255A8E"
+            fillOpacity="0.20"
+          />
+        </svg>
+      </div>
+
+      {/* Onda 3 — rápida, superficie */}
+      <div className="absolute bottom-0 left-0 w-[200%] animate-wave-drift-r2">
+        <svg viewBox="0 0 2880 55" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path
+            d="M0,32 C240,8 480,52 720,32 C960,12 1200,52 1440,32 C1680,12 1920,52 2160,32 C2400,12 2640,52 2880,32 L2880,55 L0,55 Z"
+            fill="#2E6AAA"
+            fillOpacity="0.13"
+          />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+// ─── SECCIÓN PRINCIPAL ────────────────────────────────────────────────────────
 export default function PulsoSection() {
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
@@ -48,8 +92,14 @@ export default function PulsoSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="pulso" className="py-24 bg-[#0A1628]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section
+      ref={sectionRef}
+      id="pulso"
+      className="relative py-24 overflow-hidden bg-gradient-to-b from-pulso-navy-light via-pulso-navy to-pulso-navy-deep"
+    >
+      <PulsoWaves />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
 
         {/* Header */}
         <div className="pulso-animate opacity-0 text-center mb-14">
@@ -67,7 +117,7 @@ export default function PulsoSection() {
         {/* Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* Video — arriba en mobile, izquierda en desktop */}
+          {/* Video */}
           <div className="pulso-animate opacity-0 relative glass rounded-3xl overflow-hidden border border-cast-gold/20">
             {videoMounted ? (
               <div className="relative aspect-video">
@@ -88,7 +138,7 @@ export default function PulsoSection() {
                   <button
                     onClick={() => videoRef.current?.play()}
                     aria-label="Reproducir video de PULSO"
-                    className="absolute inset-0 flex items-center justify-center bg-cast-dark/40 hover:bg-cast-dark/50 transition-colors group"
+                    className="absolute inset-0 flex items-center justify-center bg-pulso-navy/50 hover:bg-pulso-navy/60 transition-colors group"
                   >
                     <span className="w-16 h-16 rounded-full bg-cast-gold shadow-lg shadow-cast-gold/25 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                       <Play size={22} className="text-cast-dark ml-1" fill="currentColor" />
@@ -97,7 +147,7 @@ export default function PulsoSection() {
                 )}
               </div>
             ) : (
-              <div className="aspect-video flex items-center justify-center bg-cast-dark-3">
+              <div className="aspect-video flex items-center justify-center bg-pulso-navy-deep">
                 <span className="w-16 h-16 rounded-full bg-cast-gold flex items-center justify-center">
                   <Play size={22} className="text-cast-dark ml-1" fill="currentColor" />
                 </span>
@@ -105,7 +155,7 @@ export default function PulsoSection() {
             )}
           </div>
 
-          {/* Texto — abajo en mobile, derecha en desktop */}
+          {/* Texto */}
           <div className="pulso-animate opacity-0 flex flex-col gap-6">
             <span className="text-white/35 text-[11px] font-semibold tracking-[0.3em] uppercase">
               REGISTRADO ANTE LA DNDA COLOMBIA

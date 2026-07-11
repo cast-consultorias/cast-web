@@ -87,10 +87,37 @@ function PulsoVideo({ className = '' }) {
   )
 }
 
+// ─── ONDAS METALIZADAS (reutilizadas del home) ────────────────────────────────
+function PulsoWaves() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.025] to-transparent" />
+      <div className="absolute bottom-0 left-0 w-[200%] animate-wave-drift-r">
+        <svg viewBox="0 0 2880 130" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0,85 C480,20 960,150 1440,85 C1920,20 2400,150 2880,85 L2880,130 L0,130 Z" fill="#1E4A7A" fillOpacity="0.18" />
+        </svg>
+      </div>
+      <div className="absolute bottom-0 left-0 w-[200%] animate-wave-drift-l">
+        <svg viewBox="0 0 2880 90" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0,55 C360,10 720,90 1080,55 C1440,10 1800,90 2160,55 C2520,10 2760,75 2880,55 L2880,90 L0,90 Z" fill="#255A8E" fillOpacity="0.20" />
+        </svg>
+      </div>
+      <div className="absolute bottom-0 left-0 w-[200%] animate-wave-drift-r2">
+        <svg viewBox="0 0 2880 55" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0,32 C240,8 480,52 720,32 C960,12 1200,52 1440,32 C1680,12 1920,52 2160,32 C2400,12 2640,52 2880,32 L2880,55 L0,55 Z" fill="#2E6AAA" fillOpacity="0.13" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
 // ─── SECCIÓN 1 — HERO ─────────────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="bg-bp-navy py-20 px-6 flex flex-col items-center gap-10 text-center">
+    <section className="relative overflow-hidden bg-gradient-to-b from-pulso-navy-light via-pulso-navy to-pulso-navy-deep py-20 px-6 flex flex-col items-center gap-10 text-center">
+      <PulsoWaves />
+      {/* Contenido — z-10 para quedar sobre las ondas */}
+      <div className="relative z-10 flex flex-col items-center gap-10 w-full">
       {/* Logos */}
       <div className="flex items-center gap-6">
         <a href="/" className="flex items-center gap-2 group">
@@ -134,6 +161,7 @@ function HeroSection() {
 
       {/* CTA */}
       <DemoButton />
+      </div>
     </section>
   )
 }
