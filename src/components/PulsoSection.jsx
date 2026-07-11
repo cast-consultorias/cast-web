@@ -48,7 +48,7 @@ export default function PulsoSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="pulso" className="py-24 bg-cast-dark">
+    <section ref={sectionRef} id="pulso" className="py-24 bg-bp-navy">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
 
         {/* Header */}
