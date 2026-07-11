@@ -18,6 +18,14 @@
     <priority>0.95</priority>
   </url>
 
+  <!-- Landing PULSO — Plataforma de Gestión de Cuentas Médicas -->
+  <url>
+    <loc>https://castconsultorias.com/pulso</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
   <!-- Sección Servicios (anchor) -->
   <url>
     <loc>https://castconsultorias.com/#servicios-detalle</loc>

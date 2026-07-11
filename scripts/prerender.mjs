@@ -183,6 +183,51 @@ if (!existsSync(blueprintDir)) mkdirSync(blueprintDir, { recursive: true })
 writeFileSync(resolve(blueprintDir, 'index.html'), blueprintMeta)
 console.log('   dist/blueprint/index.html created.')
 
+// ─── 4c. PRE-RENDER /pulso → dist/pulso/index.html ───────────────────────────
+const pulsoHtml = render('/pulso')
+const pulsoMeta = template
+  .replace(
+    '<title>CAST Consultorías | Consultoría Estratégica · Barranquilla</title>',
+    '<title>PULSO — Plataforma de Gestión de Cuentas Médicas y Glosas | CAST</title>'
+  )
+  .replace(
+    /<meta name="description" content="[^"]*"/,
+    '<meta name="description" content="Reduce glosas y acelera tu ciclo de cuentas médicas. PULSO centraliza liquidación, seguimiento y operaciones de salud con IA y trazabilidad blockchain. Producto CAST registrado ante la DNDA."'
+  )
+  .replace(
+    '<link rel="canonical" href="https://castconsultorias.com/" />',
+    '<link rel="canonical" href="https://castconsultorias.com/pulso" />'
+  )
+  .replace(
+    'content="https://castconsultorias.com/" />',
+    'content="https://castconsultorias.com/pulso" />'
+  )
+  .replace(
+    'og:title" content="CAST Consultorías — De la Idea al Impacto Real"',
+    'og:title" content="PULSO — Plataforma de Gestión de Cuentas Médicas y Glosas | CAST"'
+  )
+  .replace(
+    /<meta property="og:description" content="[^"]*"/,
+    '<meta property="og:description" content="Reduce glosas y acelera tu ciclo de cuentas médicas. PULSO centraliza liquidación, seguimiento y operaciones de salud con IA y trazabilidad blockchain."'
+  )
+  .replace(
+    'twitter:title" content="CAST Consultorías — De la Idea al Impacto Real"',
+    'twitter:title" content="PULSO — Plataforma de Gestión de Cuentas Médicas y Glosas | CAST"'
+  )
+  .replace(
+    /<meta name="twitter:description" content="[^"]*"/,
+    '<meta name="twitter:description" content="Reduce glosas y acelera tu ciclo de cuentas médicas. PULSO centraliza liquidación, seguimiento y operaciones de salud con IA y trazabilidad blockchain."'
+  )
+  .replace(
+    '<div id="root"></div>',
+    `<div id="root">${pulsoHtml}</div>`
+  )
+
+const pulsoDir = resolve(root, 'dist/pulso')
+if (!existsSync(pulsoDir)) mkdirSync(pulsoDir, { recursive: true })
+writeFileSync(resolve(pulsoDir, 'index.html'), pulsoMeta)
+console.log('   dist/pulso/index.html created.')
+
 // ─── 5. LIMPIEZA ─────────────────────────────────────────────────────────────
 try {
   rmSync(resolve(root, 'dist-ssr'), { recursive: true, force: true })
