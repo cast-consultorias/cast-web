@@ -211,12 +211,24 @@ const pulsoMeta = template
     '<meta property="og:description" content="Reduce glosas y acelera tu ciclo de cuentas médicas. PULSO centraliza liquidación, seguimiento y operaciones de salud con IA y trazabilidad blockchain."'
   )
   .replace(
+    /<meta property="og:image" content="[^"]*"/,
+    '<meta property="og:image" content="https://castconsultorias.com/og-pulso.jpg"'
+  )
+  .replace(
+    /<meta property="og:image:alt" content="[^"]*"/,
+    '<meta property="og:image:alt" content="PULSO — Plataforma de Gestión de Cuentas Médicas y Glosas | CAST"'
+  )
+  .replace(
     'twitter:title" content="CAST Consultorías — De la Idea al Impacto Real"',
     'twitter:title" content="PULSO — Plataforma de Gestión de Cuentas Médicas y Glosas | CAST"'
   )
   .replace(
     /<meta name="twitter:description" content="[^"]*"/,
     '<meta name="twitter:description" content="Reduce glosas y acelera tu ciclo de cuentas médicas. PULSO centraliza liquidación, seguimiento y operaciones de salud con IA y trazabilidad blockchain."'
+  )
+  .replace(
+    /<meta name="twitter:image" content="[^"]*"/,
+    '<meta name="twitter:image" content="https://castconsultorias.com/og-pulso.jpg"'
   )
   .replace(
     '<div id="root"></div>',
