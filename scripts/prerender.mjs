@@ -98,6 +98,23 @@ const storageMock = {
 defineGlobal('localStorage', storageMock)
 defineGlobal('sessionStorage', storageMock)
 
+// WebSocket mock para @supabase/realtime-js
+// Node.js < 22 no tiene WebSocket nativo; Netlify build usa Node 20.
+if (typeof globalThis.WebSocket === 'undefined') {
+  class MockWebSocket {
+    constructor() { this.readyState = 3 }
+    close() {}
+    send() {}
+    addEventListener() {}
+    removeEventListener() {}
+  }
+  MockWebSocket.CONNECTING = 0
+  MockWebSocket.OPEN = 1
+  MockWebSocket.CLOSING = 2
+  MockWebSocket.CLOSED = 3
+  defineGlobal('WebSocket', MockWebSocket)
+}
+
 // ─── 1. BUILD DEL CLIENTE ────────────────────────────────────────────────────
 console.log('\n[prerender] 1/4 — Building client bundle...')
 await build({
