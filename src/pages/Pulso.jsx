@@ -3,7 +3,7 @@ import { Play, CheckCircle, AlertTriangle, Shield, ChevronRight, MessageCircle }
 
 // ─── CONSTANTES ───────────────────────────────────────────────────────────────
 // TODO: Crear el evento 'Demo PULSO — 30 min' en cal.com antes del lanzamiento
-const CAL_DEMO_PULSO = 'https://cal.com/carlos-alberto-suarez-tous-3hbcmp/demo-pulso'
+const CAL_DEMO_PULSO = 'https://cal.com/carlos-alberto-suarez-tous-3hbcmp/demostracion-pulso'
 const WA_PULSO = 'https://wa.me/573042113374?text=Hola+Carlos%2C+quiero+una+demostraci%C3%B3n+de+PULSO+para+mi+instituci%C3%B3n'
 
 // ─── CTA BUTTON ──────────────────────────────────────────────────────────────
