@@ -390,12 +390,7 @@ function TestimonialBP01() {
           Medicina Metabólica &amp; Longevidad · Barranquilla, Colombia
         </p>
         <div className="flex flex-wrap gap-4 mt-3">
-          {/*
-            ⚠️ VERIFICAR ANTES DE PUBLICAR:
-            Handle recibido en brief: draeusy_saludmetabolica (sin punto)
-            Handle en informe interno: dra.eusi_saludmetabolica (con punto)
-            Confirmar con la Dra. Contreras cuál es el perfil activo antes de publicar.
-          */}
+          {/* Handle verificado jul-2026: @draeusy_saludmetabolica */}
           <a
             href="https://www.instagram.com/draeusy_saludmetabolica/"
             target="_blank"
