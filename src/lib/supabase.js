@@ -10,7 +10,15 @@ if (!supabaseUrl || !supabaseAnonKey) {
   )
 }
 
+// persistSession:false evita que Supabase acceda a localStorage en el prerender SSR
 export const supabase = createClient(
   supabaseUrl ?? 'https://placeholder.supabase.co',
   supabaseAnonKey ?? 'placeholder_key',
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  }
 )

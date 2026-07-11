@@ -86,6 +86,18 @@ defineGlobal('self', globalThis)
 defineGlobal('requestAnimationFrame', () => 0)
 defineGlobal('cancelAnimationFrame', () => {})
 
+// Mocks para @supabase/supabase-js (accede a estas APIs al inicializar el cliente)
+const storageMock = {
+  getItem: () => null,
+  setItem: () => {},
+  removeItem: () => {},
+  clear: () => {},
+  length: 0,
+  key: () => null,
+}
+defineGlobal('localStorage', storageMock)
+defineGlobal('sessionStorage', storageMock)
+
 // ─── 1. BUILD DEL CLIENTE ────────────────────────────────────────────────────
 console.log('\n[prerender] 1/4 — Building client bundle...')
 await build({
