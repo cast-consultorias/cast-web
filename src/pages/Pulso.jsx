@@ -1,8 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
-import { Play, CheckCircle, AlertTriangle, Shield, ChevronRight, MessageCircle } from 'lucide-react'
+import { Play, CheckCircle, AlertTriangle, Shield, ChevronRight, MessageCircle, Plus } from 'lucide-react'
 
 // ─── CONSTANTES ───────────────────────────────────────────────────────────────
-// TODO: Crear el evento 'Demo PULSO — 30 min' en cal.com antes del lanzamiento
 const CAL_DEMO_PULSO = 'https://cal.com/carlos-alberto-suarez-tous-3hbcmp/demostracion-pulso'
 const WA_PULSO = 'https://wa.me/573042113374?text=Hola+Carlos%2C+quiero+una+demostraci%C3%B3n+de+PULSO+para+mi+instituci%C3%B3n'
 
@@ -111,56 +110,81 @@ function PulsoWaves() {
   )
 }
 
+// ─── ACORDEÓN ─────────────────────────────────────────────────────────────────
+function Accordion({ trigger, children }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border border-bp-gold/30 rounded-2xl overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-start justify-between gap-4 px-6 py-5 text-left bg-white/5 hover:bg-white/[0.07] transition-colors"
+        aria-expanded={open}
+      >
+        <span className="font-montserrat font-bold text-white text-base leading-snug">{trigger}</span>
+        <span
+          className="text-bp-gold shrink-0 mt-0.5 transition-transform duration-300"
+          style={{ transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }}
+        >
+          <Plus size={20} />
+        </span>
+      </button>
+      <div
+        className="overflow-hidden transition-all duration-500 ease-in-out"
+        style={{ maxHeight: open ? '9999px' : '0px', opacity: open ? 1 : 0 }}
+      >
+        <div className="px-6 pb-8 pt-4 bg-white/[0.03] border-t border-bp-gold/15">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── SECCIÓN 1 — HERO ─────────────────────────────────────────────────────────
 function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-pulso-navy-light via-pulso-navy to-pulso-navy-deep py-20 px-6 flex flex-col items-center gap-10 text-center">
       <PulsoWaves />
-      {/* Contenido — z-10 para quedar sobre las ondas */}
       <div className="relative z-10 flex flex-col items-center gap-10 w-full">
-      {/* Logos */}
-      <div className="flex items-center gap-6">
-        <a href="/" className="flex items-center gap-2 group">
-          <img
-            src="/sello-metodologia.png"
-            alt="CAST"
-            className="h-10 w-auto object-contain"
-            onError={(e) => { e.currentTarget.style.display = 'none' }}
-          />
-          <div className="text-left">
-            <span className="block font-montserrat font-extrabold text-bp-gold text-base tracking-widest">CAST</span>
-            <span className="block font-opensans text-white/30 text-[10px] tracking-widest uppercase">Consultorías S.A.S.</span>
+        <div className="flex items-center gap-6">
+          <a href="/" className="flex items-center gap-2 group">
+            <img
+              src="/sello-metodologia.png"
+              alt="CAST"
+              className="h-10 w-auto object-contain"
+              onError={(e) => { e.currentTarget.style.display = 'none' }}
+            />
+            <div className="text-left">
+              <span className="block font-montserrat font-extrabold text-bp-gold text-base tracking-widest">CAST</span>
+              <span className="block font-opensans text-white/30 text-[10px] tracking-widest uppercase">Consultorías S.A.S.</span>
+            </div>
+          </a>
+          <span className="text-white/20 text-xl">·</span>
+          <div>
+            <span className="font-montserrat font-extrabold text-white text-xl tracking-wide">
+              PULSO<sup className="text-bp-gold text-xs align-super">®</sup>
+            </span>
+            <span className="block font-opensans text-white/30 text-[10px] uppercase tracking-wider mt-0.5">Producto CAST</span>
           </div>
-        </a>
-        <span className="text-white/20 text-xl">·</span>
-        <div>
-          <span className="font-montserrat font-extrabold text-white text-xl tracking-wide">
-            PULSO<sup className="text-bp-gold text-xs align-super">®</sup>
-          </span>
-          <span className="block font-opensans text-white/30 text-[10px] uppercase tracking-wider mt-0.5">Producto CAST</span>
         </div>
-      </div>
 
-      {/* Headline */}
-      <div className="max-w-3xl flex flex-col gap-4">
-        <h1 className="font-montserrat font-extrabold text-white text-3xl md:text-5xl leading-tight">
-          SU IPS NO TIENE UN PROBLEMA DE FACTURACIÓN.
-        </h1>
-        <p className="font-montserrat font-extrabold text-bp-gold text-2xl md:text-3xl leading-snug">
-          TIENE UN PROBLEMA DE GLOSAS.
-        </p>
-        <p className="font-opensans text-white/65 text-base md:text-lg leading-relaxed mt-2 max-w-2xl mx-auto">
-          En Colombia, entre el 20% y el 40% del valor facturado por los prestadores se pierde o se congela
-          en glosas y cartera vencida. PULSO fue diseñado para atacar ese problema de raíz: detectar la glosa
-          antes de radicar, acelerar la liquidación y darle trazabilidad total a cada peso.
-        </p>
-      </div>
+        <div className="max-w-3xl flex flex-col gap-4">
+          <h1 className="font-montserrat font-extrabold text-white text-3xl md:text-5xl leading-tight">
+            SU IPS NO TIENE UN PROBLEMA DE FACTURACIÓN.
+          </h1>
+          <p className="font-montserrat font-extrabold text-bp-gold text-2xl md:text-3xl leading-snug">
+            TIENE UN PROBLEMA DE GLOSAS.
+          </p>
+          <p className="font-opensans text-white/65 text-base md:text-lg leading-relaxed mt-2 max-w-2xl mx-auto">
+            En Colombia, entre el 20% y el 40% del valor facturado por los prestadores se pierde o se congela
+            en glosas y cartera vencida. PULSO fue diseñado para atacar ese problema de raíz: detectar la glosa
+            antes de radicar, acelerar la liquidación y darle trazabilidad total a cada peso.
+          </p>
+        </div>
 
-      {/* Video */}
-      <PulsoVideo className="w-full max-w-2xl" />
-
-      {/* CTA */}
-      <DemoButton />
+        <PulsoVideo className="w-full max-w-2xl" />
+        <DemoButton />
       </div>
     </section>
   )
@@ -231,6 +255,83 @@ function WhatIsPulsoSection() {
   )
 }
 
+// ─── SECCIÓN 3-BIS — DE LA AVIACIÓN A LA SALUD ───────────────────────────────
+const AVIACION_TABLE = [
+  ['Aerolínea que paga el servicio', 'EPS / Entidad Responsable de Pago'],
+  ['Proveedor del servicio aeroportuario', 'IPS prestadora que atiende y factura'],
+  ['Billetera virtual con fondos cargados', 'Presupuesto por contrato gestionado en la plataforma'],
+  ['Aprobador con autenticación de doble factor', 'Auditor médico y financiero'],
+  ['Ciclo de servicio', 'Ciclo de cuenta médica'],
+  ['Disputa comercial', 'Proceso de glosa'],
+  ['Nota de crédito', 'Nota crédito / conciliación de glosa'],
+]
+
+function AviacionSection() {
+  return (
+    <section className="bg-bp-navy-deep py-14 px-6">
+      <div className="max-w-3xl mx-auto">
+        <Accordion trigger="¿Por qué se llama PULSO? Conozca el caso real que inspiró la plataforma →">
+          <div className="flex flex-col gap-6 pt-2">
+            <h3 className="font-montserrat font-bold text-white text-lg md:text-xl leading-snug">
+              UN PROBLEMA IDÉNTICO YA FUE RESUELTO — EN OTRA INDUSTRIA.
+            </h3>
+            <p className="font-opensans text-white/65 text-sm md:text-base leading-relaxed">
+              En Argentina, las aerolíneas enfrentaban exactamente el mismo caos que hoy vive la salud colombiana:
+              facturas sin trazabilidad, aprobaciones interminables por correo electrónico, y disputas financieras
+              con cada proveedor que tardaban semanas en resolverse.
+            </p>
+            <p className="font-opensans text-white/65 text-sm md:text-base leading-relaxed">
+              Una plataforma digital resolvió ese problema centralizando en tiempo real la interacción entre todos
+              los actores del proceso financiero: los fondos se cargan en una billetera virtual, el proveedor emite
+              su solicitud de pago digitalmente, el responsable aprueba con un clic y autenticación de doble factor,
+              y el sistema registra la transacción de forma inmutable.
+            </p>
+            <p className="font-opensans text-white/65 text-sm md:text-base leading-relaxed">
+              El resultado: cero disputas sin trazabilidad, cero facturas perdidas, cero aprobaciones sin
+              responsable identificado. Un ciclo que antes tardaba semanas se redujo a horas.
+            </p>
+            <p className="font-opensans text-white/45 text-sm italic leading-relaxed border-l-2 border-bp-gold/30 pl-4">
+              "Si la aviación pudo modernizar sus finanzas con tecnología, la salud no tiene excusa para no hacerlo."
+            </p>
+
+            <div className="overflow-x-auto rounded-xl border border-white/10">
+              <table className="w-full text-sm font-opensans">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left px-4 py-3 text-bp-gold font-montserrat font-bold text-xs uppercase tracking-wide">
+                      Aviación (el caso original)
+                    </th>
+                    <th className="text-left px-4 py-3 text-bp-gold font-montserrat font-bold text-xs uppercase tracking-wide">
+                      PULSO — Salud (Colombia)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {AVIACION_TABLE.map(([left, right], i) => (
+                    <tr key={i} className={i % 2 === 0 ? 'bg-white/[0.03]' : ''}>
+                      <td className="px-4 py-3 text-white/55 leading-snug align-top">{left}</td>
+                      <td className="px-4 py-3 text-white/75 leading-snug align-top">{right}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="font-opensans text-white/55 text-sm md:text-base leading-relaxed">
+              Esa misma arquitectura de trazabilidad total es la base sobre la que PULSO construye su visión de
+              largo plazo: convertir cada cuenta médica auditada y verificada en un activo financiero con historial
+              inmutable — la puerta de entrada, a futuro y bajo marcos regulados por la autoridad financiera
+              competente, a instrumentos de liquidez sobre cartera de salud. Es una conversación que sostenemos
+              con gusto en privado, con juntas directivas listas para ese siguiente paso.
+            </p>
+            <DemoButton text="CONOCER ESTA VISIÓN EN DETALLE →" className="self-start" />
+          </div>
+        </Accordion>
+      </div>
+    </section>
+  )
+}
+
 // ─── SECCIÓN 4 — LOS 5 MÓDULOS DE IA ────────────────────────────────────────
 function ModulesSection() {
   const modules = [
@@ -295,6 +396,68 @@ function ModulesSection() {
   )
 }
 
+// ─── SECCIÓN 4-BIS — EL ECOSISTEMA PULSO ─────────────────────────────────────
+const ECOSISTEMA = [
+  {
+    label: 'PULSO Agendamiento',
+    body: 'Programación de citas, validación de derechos (BDUA) y autorizaciones en un solo flujo. Diseñado para crecer con usted: mismo sistema para el profesional independiente, la IPS privada y la red con contrato EPS, sin perder funcionalidad en el camino.',
+  },
+  {
+    label: 'LATIDO — Historia Clínica + Facturación',
+    body: 'El módulo clínico que construye automáticamente la epicrisis conforme a los 22 numerales exigidos por la Res. 2284/2023, y cubre consulta ambulatoria, urgencias, hospitalización y cirugía. Lo que el médico documenta, PULSO lo convierte directamente en un cobro correcto y completo.',
+  },
+  {
+    label: 'PULSO Recobros',
+    body: 'Blindaje financiero para servicios fuera de red: autorización con trazabilidad completa, prevención automática de doble pago, y respuesta documentada ante la EPS en minutos, no en días.',
+  },
+  {
+    label: 'CAST Prefactura',
+    body: 'Auditoría médica especializada antes de radicar, ejecutada por profesionales con formación clínica y de auditoría en salud. No solo evita la glosa: identifica lo que su IPS tiene derecho a cobrar y hoy no está cobrando.',
+  },
+]
+
+function EcosistemaSection() {
+  return (
+    <section className="bg-bp-navy py-20 px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-14">
+          <span className="text-bp-gold text-[11px] font-montserrat font-bold tracking-[0.35em] uppercase">
+            ECOSISTEMA PULSO
+          </span>
+          <h2 className="font-montserrat font-bold text-white text-2xl md:text-3xl mt-3 leading-snug">
+            PULSO no es un módulo.{' '}
+            <br className="hidden md:block" />
+            Es el ecosistema completo de su operación en salud.
+          </h2>
+          <p className="font-opensans text-white/55 text-base md:text-lg mt-4 max-w-2xl mx-auto leading-relaxed">
+            La gestión de glosas es la puerta de entrada. Pero la plataforma que estamos construyendo
+            cubre todo el ciclo de su institución — desde que el paciente agenda la cita, hasta que
+            la cuenta médica se liquida.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {ECOSISTEMA.map((m) => (
+            <div
+              key={m.label}
+              className="rounded-2xl border border-white/10 bg-white/5 p-7 flex flex-col gap-3 hover:border-bp-gold/30 transition-colors duration-300"
+            >
+              <h3 className="font-montserrat font-bold text-bp-gold text-base leading-snug">
+                {m.label}
+              </h3>
+              <p className="font-opensans text-white/55 text-sm leading-relaxed">{m.body}</p>
+            </div>
+          ))}
+        </div>
+        <p className="font-opensans text-white/40 text-sm italic text-center mt-10 max-w-2xl mx-auto leading-relaxed">
+          Cada módulo se construye sobre la misma plataforma, el mismo motor de inteligencia artificial
+          y la misma trazabilidad blockchain. Hoy hablamos con usted de glosas. Mañana, PULSO es el
+          sistema operativo financiero completo de su institución.
+        </p>
+      </div>
+    </section>
+  )
+}
+
 // ─── SECCIÓN 5 — IMPACTO PROYECTADO ─────────────────────────────────────────
 function ImpactSection() {
   const metrics = [
@@ -307,7 +470,7 @@ function ImpactSection() {
   ]
 
   return (
-    <section className="bg-bp-navy py-20 px-6">
+    <section className="bg-bp-navy-deep py-20 px-6">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-14">
           <span className="text-bp-gold text-[11px] font-montserrat font-bold tracking-[0.35em] uppercase">
@@ -351,17 +514,33 @@ function ImpactSection() {
   )
 }
 
-// ─── SECCIÓN 6 — CUMPLIMIENTO NORMATIVO ──────────────────────────────────────
-function ComplianceSection() {
-  const norms = [
-    'Res. 3100/2019 (habilitación)',
-    'Res. 1888/2025 (HC interoperable HL7 FHIR)',
-    'RIPS',
-    'Trazabilidad exigible ante auditoría',
-  ]
+// ─── SECCIÓN 6 — CUMPLIMIENTO NORMATIVO (ampliada) ───────────────────────────
+const NORMAS = [
+  {
+    id: 'Res. 3100/2019',
+    desc: 'Habilitación de prestadores de servicios de salud: IPS, IPS especializadas y consultorios independientes.',
+  },
+  {
+    id: 'Res. 2284/2023',
+    desc: 'Manual Único de Devoluciones, Glosas y Respuestas: los 7 grupos de glosa, las causales taxativas y los plazos perentorios de auditoría.',
+  },
+  {
+    id: 'Res. 0948/2026',
+    desc: 'El nuevo mecanismo único de validación RIPS–Factura Electrónica de Venta, vigente desde mayo de 2026. PULSO ya opera bajo este estándar, con un motor dinámico de reglas que se actualiza junto con el Ministerio — no con cada nueva resolución.',
+  },
+  {
+    id: 'Res. 1888/2025',
+    desc: 'Historia clínica interoperable bajo el estándar internacional HL7 FHIR.',
+  },
+  {
+    id: 'RIPS',
+    desc: 'Validado en tiempo real contra la factura y la Base de Datos Única de Afiliados (BDUA).',
+  },
+]
 
+function ComplianceSection() {
   return (
-    <section className="bg-bp-navy-deep py-20 px-6">
+    <section className="bg-bp-navy py-20 px-6">
       <div className="max-w-3xl mx-auto flex flex-col gap-8">
         <div>
           <span className="text-bp-gold text-[11px] font-montserrat font-bold tracking-[0.35em] uppercase">
@@ -369,28 +548,28 @@ function ComplianceSection() {
           </span>
           <h2 className="font-montserrat font-bold text-white text-2xl md:text-3xl mt-3 leading-snug">
             Construido para la norma de hoy —{' '}
-            <br className="hidden md:block" />y preparado para la que viene.
+            <br className="hidden md:block" />y ya listo para la que viene.
           </h2>
         </div>
-        <div className="flex flex-wrap gap-3">
-          {norms.map((n) => (
-            <span
-              key={n}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-bp-gold/30 bg-bp-gold/5 text-bp-gold text-xs font-montserrat font-bold"
-            >
-              <Shield size={12} />
-              {n}
-            </span>
+        <ul className="flex flex-col gap-5">
+          {NORMAS.map((n) => (
+            <li key={n.id} className="flex items-start gap-4">
+              <CheckCircle size={18} className="text-bp-gold mt-0.5 shrink-0" />
+              <div>
+                <span className="font-montserrat font-bold text-white text-sm">{n.id}</span>
+                <span className="font-opensans text-white/60 text-sm leading-relaxed"> — {n.desc}</span>
+              </div>
+            </li>
           ))}
-        </div>
-        <p className="font-opensans text-white/60 text-base leading-relaxed">
-          La regulación en salud solo va a endurecerse: PULSO convierte el cumplimiento en
-          una ventaja operativa.
+        </ul>
+        <p className="font-opensans text-white/45 text-sm italic leading-relaxed">
+          La regulación en salud colombiana cambia todos los años. La mayoría del software del sector
+          se queda un paso atrás. PULSO fue diseñado para ir un paso adelante.
         </p>
         <div className="rounded-xl border border-white/10 bg-white/5 p-6">
           <p className="font-opensans text-white/40 text-sm italic leading-relaxed">
-            Y para quien está montando su IPS o consultorio: PULSO se implementa dentro de la
-            ruta de estructuración CAST — lo legal, lo financiero y lo tecnológico en un solo
+            Y para quien está montando su IPS o consultorio desde cero: PULSO se implementa dentro
+            de la ruta de estructuración CAST — lo legal, lo financiero y lo tecnológico en un solo
             proceso.
           </p>
         </div>
@@ -402,7 +581,7 @@ function ComplianceSection() {
 // ─── SECCIÓN 7 — FINANCIACIÓN SOBRE CARTERA ──────────────────────────────────
 function FinancingSection() {
   return (
-    <section className="bg-bp-navy py-16 px-6">
+    <section className="bg-bp-navy-deep py-16 px-6">
       <div className="max-w-3xl mx-auto">
         <div className="rounded-2xl border border-bp-gold/20 bg-bp-gold/5 p-8 md:p-10">
           <h2 className="font-montserrat font-bold text-white text-xl md:text-2xl leading-snug mb-4">
@@ -419,20 +598,52 @@ function FinancingSection() {
   )
 }
 
-// ─── SECCIÓN 8 — QUIÉN ESTÁ DETRÁS ───────────────────────────────────────────
+// ─── SECCIÓN 8 — QUIÉN ESTÁ DETRÁS (ampliada) ────────────────────────────────
+const TEAM_ITEMS = [
+  'Dirección estratégica bajo metodología PMP® / PMBOK® (PMI)',
+  'Liderazgo científico: médica especialista en Auditoría y Gerencia de Calidad en Salud, 23+ años de experiencia asistencial y administrativa',
+  'Ingeniería de software y arquitectura especializada en salud',
+  'Inteligencia Artificial y Big Data aplicados a validación y predicción de glosas',
+  'Equipo financiero para indicadores, ROI y modelo de negocio',
+  'Seguridad de la información y trazabilidad blockchain en cada capa',
+]
+
 function BackingSection() {
   return (
-    <section className="bg-bp-navy-deep py-20 px-6">
+    <section className="bg-bp-navy py-20 px-6">
       <div className="max-w-3xl mx-auto flex flex-col gap-8">
         <span className="text-bp-gold text-[11px] font-montserrat font-bold tracking-[0.35em] uppercase">
           QUIÉN ESTÁ DETRÁS
         </span>
-        <p className="font-opensans text-white/70 text-base md:text-lg leading-relaxed">
-          Detrás de PULSO está CAST Consultorías: metodología PMBOK®, dirección PMP®, ISO 27001:2022,
-          y experiencia estructurando proyectos en salud, finanzas y tecnología en Colombia y el
-          exterior. PULSO no es una startup improvisada: es ingeniería de procesos de salud
-          convertida en plataforma.
+        <h2 className="font-montserrat font-bold text-white text-xl md:text-2xl leading-snug">
+          PULSO no nace de un equipo de tecnología que un día decidió incursionar en salud.
+          Nace exactamente al revés.
+        </h2>
+        <p className="font-opensans text-white/70 text-base leading-relaxed">
+          PULSO es liderado por una{' '}
+          <strong className="text-white">médica cirujana, especialista en Gerencia de la Calidad y Auditoría en Salud</strong>,
+          con más de <strong className="text-white">23 años de trayectoria</strong> en el sistema de salud colombiano:
+          desde la práctica asistencial en múltiples roles clínicos, hasta la gestión administrativa en cargos de
+          dirección — incluyendo experiencia directa dentro de una Entidad Responsable de Pago. Hoy dirige la visión
+          científica y clínica de PULSO como <strong className="text-white">Directora Científica</strong>: la garantía
+          de que cada regla de negocio, cada validación normativa y cada flujo de auditoría que ejecuta la plataforma
+          responde a la realidad operativa real del sector — no a una interpretación externa de ella.
         </p>
+        <p className="font-opensans text-white/70 text-base leading-relaxed">
+          Detrás de PULSO está <strong className="text-white">CAST Consultorías S.A.S.</strong> y un equipo
+          multidisciplinario listo para ejecutar: dirección de proyectos bajo metodología{' '}
+          <strong className="text-white">PMP®</strong> y estándares <strong className="text-white">PMBOK®</strong> del
+          PMI, ingenieros de software especializados en arquitecturas de salud, expertos en inteligencia artificial
+          y analítica de big data, y analistas financieros que diseñan cada indicador de retorno.
+        </p>
+        <ul className="flex flex-col gap-3">
+          {TEAM_ITEMS.map((item) => (
+            <li key={item} className="flex items-start gap-3">
+              <CheckCircle size={16} className="text-bp-gold mt-0.5 shrink-0" />
+              <span className="font-opensans text-white/65 text-sm leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
         <blockquote className="border-l-2 border-bp-gold/40 pl-6">
           <p className="font-opensans text-white/50 text-base italic leading-relaxed">
             "CAST es el arquitecto intelectual de PULSO. Su capacidad para entender la complejidad
@@ -500,7 +711,9 @@ export default function Pulso() {
       <HeroSection />
       <ProblemSection />
       <WhatIsPulsoSection />
+      <AviacionSection />
       <ModulesSection />
+      <EcosistemaSection />
       <ImpactSection />
       <ComplianceSection />
       <FinancingSection />
