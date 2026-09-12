@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
   HeartPulse, Landmark, BrainCircuit, Star, Building2,
-  Coins, Globe, Handshake, ArrowUpRight, X, CheckCircle2, CalendarCheck, MessageCircle,
+  Coins, Globe, Handshake, Mic, ArrowUpRight, X, CheckCircle2, CalendarCheck, MessageCircle,
 } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -197,6 +197,31 @@ const services = [
       ],
     },
   },
+  {
+    Icon: Mic,
+    badge: null,
+    featured: false,
+    target: 'NEGOCIOS QUE PIERDEN CLIENTES PORQUE NADIE CONTESTA A TIEMPO',
+    title: 'CAST Voice Platform — Empleados de IA que Atienden y Resuelven',
+    desc: '¿Ya pusiste un bot y terminó diciendo "un asesor te contactará"? Eso no es un empleado. Nosotros incrustamos empleados de IA que razonan: atienden por voz, WhatsApp, Instagram y Messenger 24/7, agendan reuniones en tu calendario real, cobran, hacen seguimiento y derivan a la persona correcta — parametrizados por un FDE+PMP de CAST dentro de tu operación.',
+    ctaHref: 'https://app.castconsultorias.com/vitrina',
+    ctaLabel: 'Conoce a los empleados',
+    ctaExternal: true,
+    detail: {
+      heading: 'Empleados de IA que resuelven problemas reales de tu negocio',
+      body: 'No son minutos de llamada. No son chatbots. Son compañeros de trabajo que atienden por voz, WhatsApp, Instagram y Messenger las 24 horas, agendan en tu calendario real, consultan tu CRM y saben cuándo pasarle el caso a un humano.',
+      includes: [
+        'Atiende por voz, WhatsApp, Instagram y Messenger, 24/7',
+        'Agenda reuniones en tu calendario real y hace seguimiento automático',
+        'Consulta tu CRM y responde con el contexto real de tu negocio',
+        'Manda el enlace de pago y escala comprobantes para validación humana',
+        'Deriva cada caso a la persona correcta de tu equipo',
+        'Parametrizado por un FDE+PMP de CAST dentro de tu operación',
+      ],
+      moreHref: '/voice-platform',
+      moreLabel: 'Ver la página completa del servicio',
+    },
+  },
 ]
 
 function ServiceModal({ service, onClose }) {
@@ -282,6 +307,16 @@ function ServiceModal({ service, onClose }) {
           <CtaIcon size={15} />
           {service.ctaLabel}
         </a>
+
+        {service.detail.moreHref && (
+          <a
+            href={service.detail.moreHref}
+            onClick={handleClose}
+            className="block text-center mt-4 text-white/40 hover:text-cast-gold text-xs font-medium tracking-wide transition-colors"
+          >
+            {service.detail.moreLabel}
+          </a>
+        )}
       </div>
     </div>
   )

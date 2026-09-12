@@ -26,6 +26,14 @@
     <priority>0.90</priority>
   </url>
 
+  <!-- Landing CAST Voice Platform — Empleados de IA -->
+  <url>
+    <loc>https://castconsultorias.com/voice-platform</loc>
+    <lastmod>2026-09-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
   <!-- Sección Servicios (anchor) -->
   <url>
     <loc>https://castconsultorias.com/#servicios-detalle</loc>

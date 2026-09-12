@@ -269,6 +269,55 @@ if (!existsSync(pulsoDir)) mkdirSync(pulsoDir, { recursive: true })
 writeFileSync(resolve(pulsoDir, 'index.html'), pulsoMeta)
 console.log('   dist/pulso/index.html created.')
 
+// ─── 4d. PRE-RENDER /voice-platform → dist/voice-platform/index.html ─────────
+const voicePlatformHtml = render('/voice-platform')
+const voicePlatformMeta = template
+  .replace(
+    '<title>CAST Consultorías | Consultoría Estratégica · Barranquilla</title>',
+    '<title>CAST Voice Platform — Empleados de IA | CAST Consultorías</title>'
+  )
+  .replace(
+    /<meta name="description" content="[^"]*"/,
+    '<meta name="description" content="Empleados de IA que atienden por voz, WhatsApp, Instagram y Messenger 24/7: agendan en tu calendario real, consultan tu CRM y derivan a la persona correcta."'
+  )
+  .replace(
+    '<link rel="canonical" href="https://castconsultorias.com/" />',
+    '<link rel="canonical" href="https://castconsultorias.com/voice-platform" />'
+  )
+  .replace(
+    'content="https://castconsultorias.com/" />',
+    'content="https://castconsultorias.com/voice-platform" />'
+  )
+  .replace(
+    'og:title" content="CAST Consultorías — De la Idea al Impacto Real"',
+    'og:title" content="CAST Voice Platform — Empleados de IA | CAST Consultorías"'
+  )
+  .replace(
+    /<meta property="og:description" content="[^"]*"/,
+    '<meta property="og:description" content="Empleados de IA que atienden por voz, WhatsApp, Instagram y Messenger 24/7: agendan en tu calendario real, consultan tu CRM y derivan a la persona correcta."'
+  )
+  .replace(
+    /<meta property="og:image:alt" content="[^"]*"/,
+    '<meta property="og:image:alt" content="CAST Voice Platform — Empleados de IA que Atienden y Resuelven"'
+  )
+  .replace(
+    'twitter:title" content="CAST Consultorías — De la Idea al Impacto Real"',
+    'twitter:title" content="CAST Voice Platform — Empleados de IA | CAST Consultorías"'
+  )
+  .replace(
+    /<meta name="twitter:description" content="[^"]*"/,
+    '<meta name="twitter:description" content="Empleados de IA que atienden por voz, WhatsApp, Instagram y Messenger 24/7: agendan en tu calendario real, consultan tu CRM y derivan a la persona correcta."'
+  )
+  .replace(
+    '<div id="root"></div>',
+    `<div id="root">${voicePlatformHtml}</div>`
+  )
+
+const voicePlatformDir = resolve(root, 'dist/voice-platform')
+if (!existsSync(voicePlatformDir)) mkdirSync(voicePlatformDir, { recursive: true })
+writeFileSync(resolve(voicePlatformDir, 'index.html'), voicePlatformMeta)
+console.log('   dist/voice-platform/index.html created.')
+
 // ─── 5. LIMPIEZA ─────────────────────────────────────────────────────────────
 try {
   rmSync(resolve(root, 'dist-ssr'), { recursive: true, force: true })

@@ -13,6 +13,7 @@ import CTA from './components/CTA'
 import Footer from './components/Footer'
 import Blueprint from './pages/Blueprint'
 import Pulso from './pages/Pulso'
+import VoicePlatform from './pages/VoicePlatform'
 
 function HomePage() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/blueprint" element={<Blueprint />} />
       <Route path="/pulso" element={<Pulso />} />
+      <Route path="/voice-platform" element={<VoicePlatform />} />
     </Routes>
   )
 }
