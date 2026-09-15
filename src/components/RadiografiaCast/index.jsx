@@ -144,7 +144,7 @@ function WizardFooter({ onBack, onNext, canNext, loading, isLast, showBack }) {
 // ─── PORTADA ─────────────────────────────────────────────────────────────────
 function Portada({ onStart, initialData }) {
   const [form, setForm] = useState(
-    initialData ?? { nombre: '', profesion: '', email: '', whatsapp: '+57 ' }
+    initialData ?? { nombre: '', profesion: '', email: '', whatsapp: '+57 ', autoriza: false }
   )
   const [errors, setErrors] = useState({})
 
@@ -156,6 +156,7 @@ function Portada({ onStart, initialData }) {
     if (!form.profesion.trim()) e.profesion = 'Campo requerido'
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Email inválido'
     if (form.whatsapp.replace(/\D/g, '').length < 7) e.whatsapp = 'Número inválido'
+    if (!form.autoriza) e.autoriza = 'Para continuar debes aceptar el contacto y el tratamiento de tus datos'
     return e
   }
 
@@ -212,6 +213,22 @@ function Portada({ onStart, initialData }) {
             {errors[key] && <p className="text-red-400 text-xs font-opensans">{errors[key]}</p>}
           </div>
         ))}
+        {/* Autorización de contacto y tratamiento de datos (Ley 1581). Obligatoria. */}
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="rc-autoriza" className="flex items-start gap-3 font-opensans text-white/60 text-xs leading-relaxed cursor-pointer">
+            <input
+              id="rc-autoriza"
+              type="checkbox"
+              checked={!!form.autoriza}
+              onChange={(e) => setForm(f => ({ ...f, autoriza: e.target.checked }))}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[#C9A452]"
+            />
+            <span>Acepto que CAST Consultorías me contacte por WhatsApp y correo, conforme a su{' '}
+              <a href="https://app.castconsultorias.com/data-processing-policy" target="_blank" rel="noopener noreferrer" className="text-bp-gold underline underline-offset-2">política de tratamiento de datos</a>.
+            </span>
+          </label>
+          {errors.autoriza && <p className="text-red-400 text-xs font-opensans">{errors.autoriza}</p>}
+        </div>
         <button
           type="submit"
           className="mt-2 w-full bg-bp-gold text-bp-navy font-montserrat font-extrabold uppercase tracking-wider py-4 rounded-xl hover:bg-bp-gold/90 transition-colors duration-200 text-sm shadow-lg shadow-bp-gold/20"
@@ -492,7 +509,8 @@ export default function RadiografiaCast() {
       profesion: contacto.profesion,
       email: contacto.email,
       whatsapp: contacto.whatsapp,
-      respuestas: buildRespuestasText(respuestas),
+      // El permiso viaja en el texto de respuestas: el importador del CRM lo lee de ahí.
+      respuestas: buildRespuestasText(respuestas) + (contacto.autoriza ? '\n\nAcepta contacto por WhatsApp y correo: sí' : ''),
       capital_estimado_cop: respuestas.p3_detail
         ? parseFloat(String(respuestas.p3_detail).replace(/\./g, '')) || null
         : null,

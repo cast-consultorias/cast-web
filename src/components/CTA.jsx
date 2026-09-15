@@ -155,7 +155,7 @@ export default function CTA() {
   const formRef    = useRef(null)
 
   const [fields, setFields] = useState({
-    nombre: '', email: '', whatsapp: '', pais: '', perfil: '', urgencia: '', proyecto: '',
+    nombre: '', email: '', whatsapp: '', pais: '', perfil: '', urgencia: '', proyecto: '', autoriza_contacto: '',
   })
   const [scoreInfo, setScoreInfo] = useState(null)
   const [status, setStatus] = useState('idle') // idle | sending | success | error
@@ -343,6 +343,22 @@ export default function CTA() {
                 </div>
 
               </div>
+
+              {/* Autorización de contacto y tratamiento de datos (Ley 1581). Obligatoria: sin ella no se envía. */}
+              <label htmlFor="cta-autoriza-contacto" className="mt-5 flex items-start gap-3 text-white/60 text-xs leading-relaxed cursor-pointer">
+                <input
+                  id="cta-autoriza-contacto"
+                  type="checkbox"
+                  required
+                  name="autoriza_contacto"
+                  checked={fields.autoriza_contacto === 'si'}
+                  onChange={e => setFields(prev => ({ ...prev, autoriza_contacto: e.target.checked ? 'si' : '' }))}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-[#C9A84C]"
+                />
+                <span>Acepto que CAST Consultorías me contacte por WhatsApp y correo, conforme a su{' '}
+                  <a href="https://app.castconsultorias.com/data-processing-policy" target="_blank" rel="noopener noreferrer" className="text-cast-gold underline underline-offset-2 hover:text-cast-gold-light">política de tratamiento de datos</a>.
+                </span>
+              </label>
 
               {/* Indicador de evaluación en tiempo real */}
               {scoreInfo && (
