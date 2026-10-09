@@ -14,25 +14,29 @@
 
   // Planes: moneda y forma de pago
   var precios = {
-    starter:      {COP:{mes:990000, anio:9900000},  USD:{mes:300,  anio:3000},  empleados:1},
-    professional: {COP:{mes:2640000,anio:26400000}, USD:{mes:800,  anio:8000},  empleados:3},
-    enterprise:   {COP:{mes:5940000,anio:59400000}, USD:{mes:1800, anio:18000}, empleados:7}
+    starter:      {COP:{mes:990000, anio:9900000},  USD:{mes:300,  anio:3000},  EUR:{mes:300,  anio:3000},  empleados:1},
+    professional: {COP:{mes:2640000,anio:26400000}, USD:{mes:800,  anio:8000},  EUR:{mes:800,  anio:8000},  empleados:3},
+    enterprise:   {COP:{mes:5940000,anio:59400000}, USD:{mes:1800, anio:18000}, EUR:{mes:1800, anio:18000}, empleados:7}
   };
   var moneda = "COP", pago = "mes";
   function fmt(v, m){
+    if (m === "EUR") return Math.round(v).toLocaleString("es-ES", { useGrouping: "always" }) + " €";
     return m === "COP" ? "$" + Math.round(v).toLocaleString("es-CO") : "US$" + Math.round(v).toLocaleString("es-CO");
   }
   function pintarPlanes(){
     document.querySelectorAll(".plan").forEach(function(el){
       var p = precios[el.getAttribute("data-plan")]; var v = p[moneda][pago];
       el.querySelector(".valor").textContent = fmt(v, moneda);
-      el.querySelector(".por").textContent = (moneda === "COP" ? "COP" : "USD") + (pago === "mes" ? " al mes" : " al año");
+      el.querySelector(".por").textContent = (moneda === "EUR" ? "" : moneda) + (pago === "mes" ? " al mes" : " al año").replace(/^ /, moneda === "EUR" ? "" : " ");
       var porEmpleado = p[moneda].mes / p.empleados;
       el.querySelector(".detalle").textContent = pago === "anio"
         ? "Equivale a " + fmt(v / 12, moneda) + " al mes"
         : "Por empleado: " + fmt(porEmpleado, moneda);
     });
-    document.getElementById("letra-menuda").textContent = moneda === "COP"
+    var letras = {
+      EUR: "Precios en euros para empresas en España y el resto de la Unión Europea, vigentes a octubre de 2026. IVA no incluido. La implementación y la consultoría se cotizan aparte. Cada empleado virtual se configura con su Project Manager según el diagnóstico de su Blueprint Session™."
+    };
+    document.getElementById("letra-menuda").textContent = letras[moneda] ? letras[moneda] : moneda === "COP"
       ? "Precios vigentes a octubre de 2026. En Colombia la suscripción de software no causa IVA; la implementación y la consultoría se cotizan aparte, más IVA. Cada empleado virtual se configura con su Project Manager según el diagnóstico de su Blueprint Session™."
       : "Prices valid as of October 2026, for clients outside Colombia. Setup and consulting are quoted separately. Precios vigentes a octubre de 2026 para clientes fuera de Colombia; la implementación y la consultoría se cotizan aparte.";
   }
@@ -43,6 +47,15 @@
       pintarPlanes();
     });
   });
+  // Un enlace puede abrir ya en una moneda: castconsultorias.com/portafolio/?moneda=EUR
+  try {
+    var pedida = (new URLSearchParams(location.search).get("moneda") || "").toUpperCase();
+    if (pedida === "EUR" || pedida === "USD") {
+      moneda = pedida;
+      document.querySelectorAll("[data-moneda]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.getAttribute("data-moneda") === pedida)); });
+      pintarPlanes();
+    }
+  } catch (e) {}
   document.querySelectorAll("[data-pago]").forEach(function(b){
     b.addEventListener("click", function(){
       pago = b.getAttribute("data-pago");
