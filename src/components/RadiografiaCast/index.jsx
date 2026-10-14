@@ -224,7 +224,7 @@ function Portada({ onStart, initialData }) {
               className="mt-0.5 h-4 w-4 shrink-0 accent-[#C9A452]"
             />
             <span>Acepto que CAST Consultorías me contacte por WhatsApp y correo, conforme a su{' '}
-              <a href="https://app.castconsultorias.com/data-processing-policy" target="_blank" rel="noopener noreferrer" className="text-bp-gold underline underline-offset-2">política de tratamiento de datos</a>.
+              <a href="https://app.castconsultorias.com/datos" target="_blank" rel="noopener noreferrer" className="text-bp-gold underline underline-offset-2">política de tratamiento de datos</a>.
             </span>
           </label>
           {errors.autoriza && <p className="text-red-400 text-xs font-opensans">{errors.autoriza}</p>}

@@ -356,7 +356,7 @@ export default function CTA() {
                   className="mt-0.5 h-4 w-4 shrink-0 accent-[#C9A84C]"
                 />
                 <span>Acepto que CAST Consultorías me contacte por WhatsApp y correo, conforme a su{' '}
-                  <a href="https://app.castconsultorias.com/data-processing-policy" target="_blank" rel="noopener noreferrer" className="text-cast-gold underline underline-offset-2 hover:text-cast-gold-light">política de tratamiento de datos</a>.
+                  <a href="https://app.castconsultorias.com/datos" target="_blank" rel="noopener noreferrer" className="text-cast-gold underline underline-offset-2 hover:text-cast-gold-light">política de tratamiento de datos</a>.
                 </span>
               </label>
 
