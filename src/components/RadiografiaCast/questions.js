@@ -253,6 +253,25 @@ export function getBanderaBP05(respuestas) {
   return respuestas.p6 === '01' || respuestas.p6 === '03' || respuestas.p15 === '06'
 }
 
+/**
+ * Las respuestas como TEXTO legible, una por línea: "Pregunta: respuesta".
+ *
+ * El importador del CRM las guarda en las notas del lead como texto y lee de
+ * ahí el permiso de contacto. Antes se concatenaba el objeto de
+ * buildRespuestasText con ese texto y quedaba "[object Object]": las 17
+ * respuestas se perdían (encontrado el 14-oct-2026 con Daymer Llamas).
+ */
+export function respuestasComoTexto(respuestas) {
+  const porId = buildRespuestasText(respuestas)
+  return QUESTIONS.filter(q => porId[q.id] !== undefined)
+    .map(q => {
+      const pregunta = q.text.replace(/\*/g, '')
+      const detalle = porId[`${q.id}_detail`] ? ` (${porId[`${q.id}_detail`]})` : ''
+      return `${q.id}. ${pregunta}: ${porId[q.id]}${detalle}`
+    })
+    .join('\n')
+}
+
 export function buildRespuestasText(respuestas) {
   const result = {}
   QUESTIONS.forEach(q => {

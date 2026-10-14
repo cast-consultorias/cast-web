@@ -6,7 +6,7 @@ import {
   getLevel,
   getBuyerPersona,
   getBanderaBP05,
-  buildRespuestasText,
+  respuestasComoTexto,
 } from './questions'
 import { supabase } from '../../lib/supabase'
 
@@ -510,7 +510,7 @@ export default function RadiografiaCast() {
       email: contacto.email,
       whatsapp: contacto.whatsapp,
       // El permiso viaja en el texto de respuestas: el importador del CRM lo lee de ahí.
-      respuestas: buildRespuestasText(respuestas) + (contacto.autoriza ? '\n\nAcepta contacto por WhatsApp y correo: sí' : ''),
+      respuestas: respuestasComoTexto(respuestas) +(contacto.autoriza ? '\n\nAcepta contacto por WhatsApp y correo: sí' : ''),
       capital_estimado_cop: respuestas.p3_detail
         ? parseFloat(String(respuestas.p3_detail).replace(/\./g, '')) || null
         : null,
