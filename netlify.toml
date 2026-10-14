@@ -4,6 +4,11 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # La URL de Supabase es pública (va en el bundle y en la CSP de _headers
+  # para que el navegador pueda guardar la Radiografía). Netlify la tiene como
+  # variable secreta y frenaba el build al verla en _headers (14-oct-2026).
+  # La llave anon y cualquier otra variable siguen escaneadas.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL"
 
 [[redirects]]
   from   = "/*"
