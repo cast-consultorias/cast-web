@@ -261,9 +261,9 @@ export function getBanderaBP05(respuestas) {
  * buildRespuestasText con ese texto y quedaba "[object Object]": las 17
  * respuestas se perdían (encontrado el 14-oct-2026 con Daymer Llamas).
  */
-export function respuestasComoTexto(respuestas) {
-  const porId = buildRespuestasText(respuestas)
-  return QUESTIONS.filter(q => porId[q.id] !== undefined)
+export function respuestasComoTexto(respuestas, preguntas = QUESTIONS) {
+  const porId = buildRespuestasText(respuestas, preguntas)
+  return preguntas.filter(q => porId[q.id] !== undefined)
     .map(q => {
       const pregunta = q.text.replace(/\*/g, '')
       const detalle = porId[`${q.id}_detail`] ? ` (${porId[`${q.id}_detail`]})` : ''
@@ -272,9 +272,9 @@ export function respuestasComoTexto(respuestas) {
     .join('\n')
 }
 
-export function buildRespuestasText(respuestas) {
+export function buildRespuestasText(respuestas, preguntas = QUESTIONS) {
   const result = {}
-  QUESTIONS.forEach(q => {
+  preguntas.forEach(q => {
     const val = respuestas[q.id]
     if (val === undefined || val === null || val === '') return
 
@@ -285,7 +285,7 @@ export function buildRespuestasText(respuestas) {
           return opt ? `${id}. ${opt.text}` : id
         })
         .join('; ')
-    } else if (q.type === 'textarea') {
+    } else if (q.type === 'textarea' || q.type === 'text') {
       result[q.id] = val
     } else {
       const opt = q.options?.find(o => o.id === val)

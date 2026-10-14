@@ -1,13 +1,7 @@
 import { useState, useRef } from 'react'
 import { Check } from 'lucide-react'
-import {
-  QUESTIONS,
-  calculateScore,
-  getLevel,
-  getBuyerPersona,
-  getBanderaBP05,
-  respuestasComoTexto,
-} from './questions'
+import { respuestasComoTexto } from './questions'
+import { caminoDe, evaluar, preguntasDe } from './caminos'
 import { supabase } from '../../lib/supabase'
 
 // ─── SUBMIT CON REINTENTO ────────────────────────────────────────────────────
@@ -249,12 +243,13 @@ function QuestionScreen({ question, qIndex, total, respuestas, onAnswer, onBack,
   const current = respuestas[question.id]
   const isMulti = question.type === 'multi'
   const isTextarea = question.type === 'textarea'
+  const isText = question.type === 'text'
   const multiSelected = isMulti && Array.isArray(current) ? current : []
   const condDetail = respuestas[`${question.id}_detail`] ?? ''
   const showCondField = !!question.conditional && current === question.conditional.show_field_on
 
-  const canNext = isTextarea
-    ? (current ?? '').trim().length >= (question.minLength ?? 0)
+  const canNext = isTextarea || isText
+    ? (current ?? '').trim().length >= (question.minLength ?? (isText ? 2 : 0))
     : isMulti
     ? multiSelected.length > 0
     : !!current
@@ -289,7 +284,7 @@ function QuestionScreen({ question, qIndex, total, respuestas, onAnswer, onBack,
       <QuestionLabel number={qIndex} />
       <QuestionText text={question.text} />
 
-      {!isTextarea && (
+      {!isTextarea && !isText && (
         <div className="flex flex-col gap-2.5">
           {question.options.map(opt => {
             const sel = isMulti ? multiSelected.includes(opt.id) : current === opt.id
@@ -323,14 +318,26 @@ function QuestionScreen({ question, qIndex, total, respuestas, onAnswer, onBack,
         </div>
       )}
 
+      {isText && (
+        <input
+          type="text"
+          value={current ?? ''}
+          onChange={e => onAnswer(question.id, e.target.value)}
+          onKeyDown={e => { if (e.key === 'Enter' && canNext) onNext() }}
+          placeholder={question.placeholder ?? ''}
+          aria-label={question.text.replace(/\*/g, '')}
+          className="w-full bg-white/[0.05] border border-white/15 rounded-xl px-4 py-3 text-white font-opensans text-sm placeholder:text-white/25 focus:outline-none focus:border-bp-gold transition-colors duration-200"
+        />
+      )}
+
       {isTextarea && (
         <div className="flex flex-col gap-1.5">
           <textarea
             rows={5}
             value={current ?? ''}
             onChange={e => onAnswer(question.id, e.target.value)}
-            placeholder="Cuéntanos sobre tu idea o proyecto…"
-            aria-label="Descripción de tu idea de negocio"
+            placeholder={question.placeholder ?? 'Cuéntanos sobre tu idea o proyecto…'}
+            aria-label={question.text.replace(/\*/g, '')}
             className="w-full bg-white/[0.05] border border-white/15 rounded-xl px-4 py-3 text-white font-opensans text-sm placeholder:text-white/25 focus:outline-none focus:border-bp-gold transition-colors duration-200 resize-none"
           />
           <p className={`text-xs font-opensans text-right ${(current ?? '').length >= question.minLength ? 'text-bp-gold' : 'text-white/30'}`}>
@@ -352,8 +359,10 @@ function QuestionScreen({ question, qIndex, total, respuestas, onAnswer, onBack,
 }
 
 // ─── PANTALLA FINAL ────────────────────────────────────────────────────────────
-function FinalScreen({ nombre, email, nivel, banderaBP05, retryError, onRetry }) {
-  const isHighTier = nivel === 'A' || nivel === 'B' || banderaBP05
+function FinalScreen({ nombre, email, retryError, onRetry }) {
+  // Todos agendan (Carlos, 14-oct-2026): quien se toma el tiempo de hacer la
+  // Radiografía ya pasó el filtro. El nivel solo ordena la atención en el CRM.
+  const isHighTier = true
   const firstName = nombre.trim().split(' ')[0]
 
   const calParams = new URLSearchParams({
@@ -444,7 +453,9 @@ function FinalScreen({ nombre, email, nivel, banderaBP05, retryError, onRetry })
 }
 
 // ─── WIZARD PRINCIPAL ─────────────────────────────────────────────────────────
-// screen: 0 = portada, 1-17 = preguntas, 18 = resultado final
+// screen: 0 = portada, 1 = ¿cómo te describes? (camino), 2..N = preguntas del
+// camino; `terminado` = resultado final. A cada persona solo le salen las de su
+// camino (ver caminos.js).
 export default function RadiografiaCast() {
   const [screen, setScreen] = useState(0)
   const [contacto, setContacto] = useState(null)
@@ -453,9 +464,14 @@ export default function RadiografiaCast() {
   const [retryError, setRetryError] = useState(false)
   const [savedPayload, setSavedPayload] = useState(null)
   const [result, setResult] = useState(null)
+  const [terminado, setTerminado] = useState(false)
   const submittedRef = useRef(false)
   const containerRef = useRef(null)
-  const TOTAL = QUESTIONS.length // 17
+
+  const preguntas = preguntasDe(respuestas)
+  const camino = caminoDe(respuestas)
+  // Antes de escoger el camino no se sabe cuántas son: se muestra lo típico.
+  const TOTAL = camino ? preguntas.length : 15
 
   const scrollTop = () =>
     containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -469,16 +485,19 @@ export default function RadiografiaCast() {
   // Las respuestas más recientes, fuera del ciclo de render. El clic en una
   // opción guarda la respuesta y 400 ms después llama a handleNext, pero ese
   // handleNext es el del render anterior y su `respuestas` todavía no tiene la
-  // última: la P17 se perdía siempre y el puntaje salía hasta 12 puntos más
-  // bajo (prueba de Carlos, 14-oct-2026). El envío lee de aquí.
+  // última: la última pregunta se perdía y, con los caminos, ni sabría cuántas
+  // preguntas hay (prueba de Carlos, 14-oct-2026). Lo que decide avanzar o
+  // enviar lee de aquí.
   const respuestasRef = useRef({})
 
   const handleAnswer = (key, value) => {
     setRespuestas(prev => {
-      const next = { ...prev, [key]: value }
+      // Cambiar de camino (al volver atrás) empieza ese camino desde cero.
+      let next = key === 'camino' && prev.camino && prev.camino !== value ? { camino: value } : { ...prev, [key]: value }
       // Si la pregunta tiene un campo condicional y el usuario eligió otra opción, limpia el detail
-      const q = QUESTIONS.find(q => q.id === key)
+      const q = preguntasDe(next).find(q => q.id === key)
       if (q?.conditional && value !== q.conditional.show_field_on) {
+        next = { ...next }
         delete next[`${key}_detail`]
       }
       respuestasRef.current = next
@@ -494,26 +513,22 @@ export default function RadiografiaCast() {
 
   const handleNext = async () => {
     if (submitting) return
+    const actuales = respuestasRef.current
+    const total = preguntasDe(actuales).length
 
-    if (screen < TOTAL) {
+    if (!caminoDe(actuales) || screen < total) {
       setScreen(s => s + 1)
       scrollTop()
       return
     }
 
-    // P17 completado → calcular + guardar
+    // Última pregunta del camino → calcular + guardar
     if (submittedRef.current) return
     submittedRef.current = true
     setSubmitting(true)
 
-    // Las de la ref, no las del render: incluyen la P17 recién elegida.
-    const respuestas = respuestasRef.current
-
-    const score = calculateScore(respuestas)
-    const nivel = getLevel(score)
-    const buyerPersona = getBuyerPersona(respuestas)
-    const banderaBP05 = getBanderaBP05(respuestas)
-    setResult({ score, nivel, buyerPersona, banderaBP05 })
+    const ev = evaluar(actuales)
+    setResult(ev)
 
     const payload = {
       nombre_completo: contacto.nombre,
@@ -521,22 +536,30 @@ export default function RadiografiaCast() {
       email: contacto.email,
       whatsapp: contacto.whatsapp,
       // El permiso viaja en el texto de respuestas: el importador del CRM lo lee de ahí.
-      respuestas: respuestasComoTexto(respuestas) +(contacto.autoriza ? '\n\nAcepta contacto por WhatsApp y correo: sí' : ''),
-      capital_estimado_cop: respuestas.p3_detail
-        ? parseFloat(String(respuestas.p3_detail).replace(/\./g, '')) || null
+      respuestas: respuestasComoTexto(actuales, preguntasDe(actuales)) + (contacto.autoriza ? '\n\nAcepta contacto por WhatsApp y correo: sí' : ''),
+      capital_estimado_cop: actuales.p3_detail
+        ? parseFloat(String(actuales.p3_detail).replace(/\./g, '')) || null
         : null,
-      score,
-      nivel,
-      buyer_persona: buyerPersona,
-      bandera_bp05: banderaBP05,
+      score: ev.score,
+      nivel: ev.nivel,
+      buyer_persona: ev.buyerPersona,
+      bandera_bp05: ev.banderaBP05,
       origen: 'landing_blueprint',
+      camino: ev.camino,
+      empresa: ev.empresa,
+      cargo: ev.cargo,
+      sector: ev.sector,
+      pais: ev.pais,
+      ciudad: ev.ciudad,
+      responsable: ev.responsable,
+      ofertas: ev.ofertas,
     }
     setSavedPayload(payload)
 
     const ok = await submitWithRetry(payload)
     setSubmitting(false)
     setRetryError(!ok)
-    setScreen(18)
+    setTerminado(true)
     scrollTop()
   }
 
@@ -559,7 +582,7 @@ export default function RadiografiaCast() {
       <div className="relative z-10 p-6 md:p-10 max-w-2xl mx-auto">
 
         {/* Header strip: logo + contador */}
-        {screen > 0 && screen < 18 && (
+        {screen > 0 && !terminado && (
           <div className="flex items-center justify-between mb-5">
             <img
               src="/sello-metodologia.png"
@@ -574,21 +597,21 @@ export default function RadiografiaCast() {
         )}
 
         {/* Barra de progreso */}
-        {screen > 0 && screen < 18 && (
+        {screen > 0 && !terminado && (
           <div className="mb-8">
             <ProgressBar current={screen} total={TOTAL} />
           </div>
         )}
 
         {/* Contenido con animación fade+slide-up al cambiar de screen */}
-        <div key={screen} className="rc-fade-in">
+        <div key={terminado ? 'fin' : screen} className="rc-fade-in">
           {screen === 0 && (
             <Portada onStart={handleStart} initialData={contacto} />
           )}
 
-          {screen >= 1 && screen <= TOTAL && (
+          {!terminado && screen >= 1 && preguntas[screen - 1] && (
             <QuestionScreen
-              question={QUESTIONS[screen - 1]}
+              question={preguntas[screen - 1]}
               qIndex={screen}
               total={TOTAL}
               respuestas={respuestas}
@@ -599,12 +622,10 @@ export default function RadiografiaCast() {
             />
           )}
 
-          {screen === 18 && result && (
+          {terminado && result && (
             <FinalScreen
               nombre={contacto.nombre}
               email={contacto.email}
-              nivel={result.nivel}
-              banderaBP05={result.banderaBP05}
               retryError={retryError}
               onRetry={handleRetry}
             />
