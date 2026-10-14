@@ -466,6 +466,13 @@ export default function RadiografiaCast() {
     scrollTop()
   }
 
+  // Las respuestas más recientes, fuera del ciclo de render. El clic en una
+  // opción guarda la respuesta y 400 ms después llama a handleNext, pero ese
+  // handleNext es el del render anterior y su `respuestas` todavía no tiene la
+  // última: la P17 se perdía siempre y el puntaje salía hasta 12 puntos más
+  // bajo (prueba de Carlos, 14-oct-2026). El envío lee de aquí.
+  const respuestasRef = useRef({})
+
   const handleAnswer = (key, value) => {
     setRespuestas(prev => {
       const next = { ...prev, [key]: value }
@@ -474,6 +481,7 @@ export default function RadiografiaCast() {
       if (q?.conditional && value !== q.conditional.show_field_on) {
         delete next[`${key}_detail`]
       }
+      respuestasRef.current = next
       return next
     })
   }
@@ -497,6 +505,9 @@ export default function RadiografiaCast() {
     if (submittedRef.current) return
     submittedRef.current = true
     setSubmitting(true)
+
+    // Las de la ref, no las del render: incluyen la P17 recién elegida.
+    const respuestas = respuestasRef.current
 
     const score = calculateScore(respuestas)
     const nivel = getLevel(score)
