@@ -68,14 +68,18 @@ function HeroSection() {
         </p>
       </div>
 
-      {/* Video placeholder — reemplazar con <video> cuando esté listo */}
-      <div className="w-full max-w-2xl aspect-video bg-bp-navy-deep rounded-2xl border border-bp-gold/20 flex flex-col items-center justify-center gap-3">
-        <div className="w-16 h-16 rounded-full border-2 border-bp-gold/40 flex items-center justify-center">
-          <span className="text-bp-gold text-2xl">▶</span>
-        </div>
-        <p className="text-white/30 font-opensans text-sm text-center px-6">
-          Video: Carlos Suárez — Guion Anexo A (pendiente de grabación en Malecón del Río)
-        </p>
+      {/* Video de bienvenida: Victoria invita a hacer la Radiografía (14-oct-2026).
+          El de Carlos (guion Anexo A) lo reemplaza cuando esté grabado. */}
+      <div className="w-full max-w-2xl aspect-video rounded-2xl overflow-hidden border border-bp-gold/20 bg-bp-navy-deep">
+        <video
+          className="w-full h-full object-cover"
+          src="/victoria-blueprint.mp4"
+          poster="/victoria-blueprint.jpg"
+          controls
+          preload="metadata"
+          playsInline
+          aria-label="Victoria, de CAST, te invita a hacer la Radiografía antes de tu Blueprint Session"
+        />
       </div>
 
       <CTAButton />
